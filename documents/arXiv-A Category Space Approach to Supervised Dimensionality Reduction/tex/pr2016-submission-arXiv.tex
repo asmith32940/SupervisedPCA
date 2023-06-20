@@ -1,0 +1,96 @@
+%% LyX 2.3.6.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,review]{paper}
+\usepackage{ae,aecompl}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\usepackage[numbers]{natbib}
+\usepackage[unicode=true,
+ bookmarks=false,
+ breaklinks=false,pdfborder={0 0 1},backref=section,colorlinks=false]
+ {hyperref}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+\floatstyle{ruled}
+\newfloat{algorithm}{tbp}{loa}
+\providecommand{\algorithmname}{Algorithm}
+\floatname{algorithm}{\protect\algorithmname}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newcommand{\lyxaddress}[1]{
+	\par {\raggedright #1
+	\vspace{1.4em}
+	\noindent\par}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{url}
+
+\makeatother
+
+\begin{document}
+\title{A Category Space Approach to Supervised Dimensionality Reduction}
+\author{\textonesuperior Anthony O. Smith and \texttwosuperior Anand Rangarajan}
+\maketitle
+
+\lyxaddress{\textonesuperior Dept. of Electrical and Computer Engineering, Florida
+Institute of Technology, 150 W. University Blvd., Melbourne, FL 32901,
+USA}
+
+\lyxaddress{\texttwosuperior Dept. of Computer and Information Science and Engineering,
+University of Florida, P. O. Box 116120, Gainesville, FL, 32611-6120,
+USA}
+\begin{abstract}
+Supervised dimensionality reduction has emerged as an important theme
+in the last decade. Despite the plethora of models and formulations,
+there is a lack of a simple model which aims to project the set of
+patterns into a space defined by the classes (or categories). To this
+end, we set up a model in which each class is represented as a 1D
+subspace of the vector space formed by the features. Assuming the
+set of classes does not exceed the cardinality of the features, the
+model results in multi-class supervised learning in which the features
+of each class are projected into the class subspace. Class discrimination
+is automatically guaranteed via the imposition of orthogonality of
+the 1D class sub-spaces. The resulting optimization problem\textemdash formulated
+as the minimization of a sum of quadratic functions on a Stiefel manifold\textemdash while
+being non-convex (due to the constraints), nevertheless has a structure
+for which we can identify when we have reached a global minimum. After
+formulating a version with standard inner products, we extend the
+formulation to reproducing kernel Hilbert spaces in a straightforward
+manner. The optimization approach also extends in a similar fashion
+to the kernel version. Results and comparisons with the multi-class
+Fisher linear (and kernel) discriminants and principal component analysis
+(linear and kernel) showcase the relative merits of this approach
+to dimensionality reduction.
+\end{abstract}
+\begin{keywords}
+Dimensionality reduction, optimization, classification, supervised
+learning, Stiefel manifold, category space, Fisher discriminants,
+principal component analysis, multi-class
+\end{keywords}
+\input{introduction.tex}
+
+\input{relatedwork.tex}
+
+\input{dimredform.tex}
+
+\input{algorithm.tex}
+
+\input{experiments.tex}
+
+\input{conclusion.tex}
+
+\bibliographystyle{abbrv}
+\bibliography{mybibfile_revised}
+
+\end{document}

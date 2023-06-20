@@ -1,0 +1,383 @@
+
+\section{An algorithm for supervised dimensionality reduction}
+
+We now return to the objective functions and constraints in (\ref{eq:EWZ2})
+and (\ref{eq:EWZabs}) prior to tackling the corresponding kernel
+versions in (\ref{eq:Kquadobj}) and (\ref{eq:Kabsobj}) respectively.
+It turns out that the approach for minimizing the former can be readily
+generalized to the latter with the former being easier to analyze.
+Note that the objective functions in (\ref{eq:EWZ2}) and (\ref{eq:EWZabs})
+are identical w.r.t. $W$. Consequently, we dispense with the optimization
+problems w.r.t. $Z$ which are straightforward and focus on the optimization
+problem w.r.t. $W$. 
+
+\subsection{Weight matrix estimation with orthogonality constraints}
+
+The objective function and constraints on $W$ can be written as 
+
+\begin{equation}
+E_{\mathrm{equiv}}(W)=-\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}z_{ki_{k}}w_{k}^{T}x_{i_{k}}\label{eq:Eequiv}
+\end{equation}
+and
+
+\begin{equation}
+w_{k}^{T}w_{l}=\left\{ \begin{array}{cc}
+1, & k=l\\
+0, & k\neq l
+\end{array}.\right.\label{eq:wkwlconstraintsfinal}
+\end{equation}
+Note that the set $Z$ is not included in this objective function
+despite its presence in the larger objective functions of (\ref{eq:EWZ2})
+and (\ref{eq:EWZabs}). The orthonormal constraints can be expressed
+using a Lagrange parameter matrix to obtain the following Lagrangian:
+
+\begin{equation}
+L(W,\Lambda)=-\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}z_{ki_{k}}w_{k}^{T}x_{i_{k}}+\mbox{trace}\left\{ \Lambda\left(W^{T}W-I_{K}\right)\right\} .\label{eq:Lagrangianortho}
+\end{equation}
+Setting the gradient of $L$ w.r.t. $W$ to zero, we obtain
+\begin{equation}
+\nabla_{W}L\left(W,\Lambda\right)=-Y+W\left(\Lambda+\Lambda^{T}\right)=0\label{eq:gradLagrangian}
+\end{equation}
+where the matrix $Y$ of size $D\times K$ is defined as 
+
+\begin{equation}
+Y\equiv\left[\sum_{i_{1}\in C_{1}}z_{1i_{1}}x_{i_{1}},\ldots,\sum_{i_{k}\in C_{k}}z_{ki_{k}}x_{i_{k}}\right]\label{eq:Ydef}
+\end{equation}
+Using the constraint $W^{T}W=I_{K}$ , we get 
+\begin{equation}
+\left(\Lambda+\Lambda^{T}\right)=W^{T}Y.\label{eq:lambdasol}
+\end{equation}
+Since $\left(\Lambda+\Lambda^{T}\right)$ is symmetric, this immediately
+implies that $W^{T}Y$ is symmetric. From (\ref{eq:gradLagrangian}),
+we also get 
+
+\begin{equation}
+\left(\Lambda+\Lambda^{T}\right)W^{T}W\left(\Lambda+\Lambda^{T}\right)=\left(\Lambda+\Lambda^{T}\right)^{2}=Y^{T}Y.\label{eq:lambdasol2}
+\end{equation}
+Expanding $Y$ using its singular value decomposition (SVD) as $Y=U\Sigma V^{T}$,
+the above relations can be simplified to 
+
+\begin{equation}
+Y=U\Sigma V^{T}=UV^{T}(V\Sigma V^{T})=W\left(\Lambda+\Lambda^{T}\right)\label{eq:Wsoltmp}
+\end{equation}
+giving 
+
+\begin{equation}
+\left(\Lambda+\Lambda^{T}\right)=V\Sigma V^{T}\label{eq:lambdasolfinal}
+\end{equation}
+and 
+
+\begin{equation}
+W=UV^{T}.\label{eq:Wsolfinal}
+\end{equation}
+We have shown that the optimal solution for $W$ is the polar decomposition
+of $Y$, namely $W=UV^{T}$. Since $Z$ has been held fixed during
+the estimation of $W$, in the subsequent step we can hold $W$ fixed
+and solve for $Z$ and repeat. We thereby obtain an alternating algorithm
+which iterates between estimating $W$ and $Z$ until a convergence
+criterion is met. 
+
+\subsection{Estimation of the auxiliary variable $Z$}
+
+The objective function and constraints on $Z$ depend on whether we
+use objective functions based on the square or absolute value of the
+inner product. We separately consider the two cases.
+
+The inner product squared effective objective function 
+\begin{equation}
+E_{\mathrm{quadeff}}(Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-z_{ki_{k}}w_{k}^{T}x_{i_{k}}+\frac{1}{2}z_{ki_{k}}^{2}\right]\label{eq:Equadeff}
+\end{equation}
+is minimized w.r.t. $Z$ subject to the constraints $\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\forall k$.
+The straightforward solution obtained via standard minimization is 
+
+\begin{equation}
+\begin{array}{ccc}
+z_{ki_{k}} & = & w_{k}^{T}x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}w_{k}^{T}x_{i_{k}}\\
+ & = & w_{k}^{T}\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}x_{i_{k}}\right).
+\end{array}\label{eq:Zsolquad}
+\end{equation}
+The absolute value effective objective function 
+
+\begin{equation}
+E_{\mathrm{abseff}}(Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-z_{ki_{k}}w_{k}^{T}x_{i_{k}}-\epsilon\sqrt{1-z_{ki_{k}}^{2}}\right]\label{eq:Eabseff}
+\end{equation}
+is also minimized w.r.t. $Z$ subject to the constraints $\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\forall k$.
+A heuristic solution obtained (eschewing standard minimization) is 
+
+\begin{equation}
+z_{ki_{k}}=\frac{w_{k}^{T}x_{i_{k}}}{\sqrt{\left(w_{k}^{T}x_{i_{k}}\right)^{2}+\epsilon}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}\frac{w_{k}^{T}x_{i_{k}}}{\sqrt{\left(w_{k}^{T}x_{i_{k}}\right)^{2}+\epsilon}}\label{eq:Zsolabs}
+\end{equation}
+{\small{}which has to be checked to be valid. The heuristic solution
+acts as an initial condition for constraint satisfaction (which can
+be quickly obtained via 1D line minimization).}{\small\par}
+
+\subsection{Extension to the kernel setting}
+
+The objective function and constraints on the weight matrix $A$ in
+the kernel setting are 
+
+\begin{equation}
+E_{\mathrm{Kequiv}}(A)=-\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\sum_{j=1}^{N}z_{ki_{k}}\alpha_{kj}K(x_{j},x_{i_{k}})\label{eq:EKequivA}
+\end{equation}
+with the constraints 
+
+\begin{equation}
+AGA^{T}=I_{K}\label{eq:AGAeqIK}
+\end{equation}
+where $\left[A\right]_{ki}=\alpha_{ki}$ and $\left[G\right]_{ij}=K(x_{i},x_{j})$
+is the $N\times N$ kernel Gram matrix. The constraints can be expressed
+using a Lagrange parameter matrix to obtain the following Lagrangian:
+
+\begin{eqnarray}
+L_{\mathrm{ker}}(A,\Lambda) & = & -\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\sum_{j=1}^{N}z_{ki_{k}}\alpha_{kj}K(x_{j},x_{i_{k}})\nonumber \\
+ &  & +\mbox{trace}\left\{ \Lambda_{\mathrm{ker}}\left(AGA^{T}-I_{K}\right)\right\} .\label{eq:Lagrangian_ker}
+\end{eqnarray}
+Setting the gradient of $L_{\mathrm{ker}}$ w.r.t. $A$ to zero, we
+obtain
+
+\begin{equation}
+-Y_{\mathrm{ker}}+(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})AG=0\label{eq:Lagrangian_ker_grad}
+\end{equation}
+where the matrix $Y_{\mathrm{ker}}$ of size $K\times N$ is defined
+as 
+
+\begin{equation}
+\left[Y_{\mathrm{ker}}\right]_{kj}\equiv\sum_{i_{k}\in C_{k}}z_{ki_{k}}K(x_{j},x_{i_{k}}).\label{eq:Ykerdef}
+\end{equation}
+Using the constraint $AGA^{T}=I_{K}$, we obtain 
+
+\begin{equation}
+(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})AGA^{T}(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})=(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})^{2}=Y_{\mathrm{ker}}G^{-1}Y_{\mathrm{ker}}^{T}.\label{eq:lambdakersol}
+\end{equation}
+Expanding $Y_{\mathrm{ker}}G^{-\frac{1}{2}}$ using its singular value
+decomposition as $Y_{\mathrm{ker}}G^{-\frac{1}{2}}=U_{\mathrm{ker}}S_{\mathrm{ker}}V_{\mathrm{ker}}^{T}$
+, the above relations can be simplified to 
+
+\begin{equation}
+(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})=U_{\mathrm{ker}}S_{\mathrm{ker}}U_{\mathrm{ker}}^{T}\label{eq:lambdakerfinal}
+\end{equation}
+and 
+
+\begin{equation}
+AG^{\frac{1}{2}}=U_{\mathrm{ker}}V_{\mathrm{ker}}^{T}\Rightarrow A=U_{\mathrm{ker}}V_{\mathrm{ker}}^{T}G^{-\frac{1}{2}}.\label{eq:Asolfinal}
+\end{equation}
+We have shown that the optimal solution for $A$ is related to the
+polar decomposition of $Y_{\mathrm{ker}}G^{-\frac{1}{2}}$ , namely
+$A=U_{\mathrm{ker}}V_{\mathrm{ker}}^{T}G^{-\frac{1}{2}}$ . Since
+$Z$ has been held fixed during the estimation of $A$, in the subsequent
+step we can hold $A$ fixed and solve for $Z$ and repeat. We thereby
+obtain an alternating algorithm which iterates between estimating
+$A$ and $Z$ until a convergence criterion is met. This is analogous
+to the non-kernel version above.
+
+The solutions for $Z$ in this setting are very straightforward to
+obtain. We eschew the derivation and merely state that
+\noindent \begin{flushleft}
+\begin{equation}
+\begin{array}{ccc}
+z_{ki_{k}} & = & \sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})\\
+ & = & \sum_{j=1}^{N}\alpha_{kj}\left(K(x_{j},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}K(x_{j},x_{i_{k}})\right)
+\end{array}\label{eq:zksqrkersol}
+\end{equation}
+for the squared inner product kernel objective and 
+\par\end{flushleft}
+
+\begin{equation}
+z_{ki_{k}}=\frac{\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})}{\sqrt{\left(\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})\right)^{2}+\epsilon}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}\frac{\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})}{\sqrt{\left(\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})\right)^{2}+\epsilon}}\label{eq:zkabskersol}
+\end{equation}
+for the absolute valued kernel objective. {\small{}This heuristic
+solution acts as an initial condition for constraint satisfaction
+(which can be quickly obtained via 1D line minimization).}{\small\par}
+
+\subsection{Analysis}
+
+\subsubsection{Euclidean setting\label{subsec:Euclidean-setting}}
+
+The simplest objective function in the above sequence which has been
+analyzed in the literature is the one based on the squared inner product.
+Below, we summarize this work by closely following the treatment in
+\citep{rapcsak2001minimization,Rapcsak2002}. First, in order to bring
+our work in sync with the literature, we eliminate the auxiliary variable
+$Z$ from the squared inner product objective function (treated as
+a function of both $W$ and $Z$ here): 
+
+\begin{equation}
+E_{\mathrm{quadeff}}(W,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-z_{ki_{k}}w_{k}^{T}x_{i_{k}}+\frac{1}{2}z_{ki_{k}}^{2}\right]\label{eq:Equadeff2}
+\end{equation}
+Setting $z_{ki_{k}}=w_{k}^{T}\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}x_{i_{k}}\right)$
+which is the optimum solution for $Z$, we get
+
+\begin{equation}
+E_{\mathrm{quad}}(W)=-\frac{1}{2}\sum_{k=1}^{K}w_{k}^{T}R_{k}w_{k}\equiv-\frac{1}{2}\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[w_{k}^{T}\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}x_{i}\right)\right]^{2}\label{eq:EquadW2}
+\end{equation}
+where $R_{k}$ is the class-specific covariance matrix:
+
+\begin{equation}
+R_{k}\equiv\sum_{i_{k}\in C_{k}}\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}x_{i}\right)\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}x_{i}\right)^{T}.\label{eq:Rkdef}
+\end{equation}
+We seek to minimize (\ref{eq:EquadW2}) w.r.t. $W$ under the orthonormality
+constraints $W^{T}W=I_{K}$. 
+
+A set of $K$ orthonormal vectors $\left\{ w_{k}\in\mathbf{R}^{D},\,k\in\left\{ 1,\ldots,K\right\} \right\} $
+in a $D$-dimensional Euclidean space is a point on the well known
+Stiefel manifold, denoted here by $M_{D,K}$ with $K\leq D$. The
+problem in (\ref{eq:EquadW2}) is equivalent to the maximization of
+the sum of heterogeneous quadratic functions on a Stiefel manifold.
+The functions are heterogeneous in our case since the class-specific
+covariance matrices $R_{k}$ are not identical in general. The Lagrangian
+corresponding to this problem (with $Z$ removed via direct minimization)
+is
+
+\begin{equation}
+L_{\mathrm{quad}}(W,\Lambda)=-\frac{1}{2}\sum_{k=1}^{K}w_{k}^{T}R_{k}w_{k}+\mathrm{trace}\left[\Lambda^{T}\left(W^{T}W-I_{K}\right)\right].\label{eq:Lagrangian_quad}
+\end{equation}
+Setting the gradient of the above Lagrangian w.r.t. $W$ to zero,
+we obtain 
+
+\begin{equation}
+\left[R_{1}w_{1},R_{2}w_{2},\ldots,R_{K}w_{K}\right]=W(\Lambda+\Lambda^{T}).\label{eq:RW=00003DSWW1}
+\end{equation}
+Noting that $\Lambda+\Lambda^{T}$ is symmetric and using the Stiefel
+orthonormality constraint $W^{T}W=I_{K}$, we get 
+
+\begin{equation}
+(\Lambda+\Lambda^{T})=W^{T}\left[R_{1}w_{1},R_{2}w_{2},\ldots,R_{K}w_{K}\right].
+\end{equation}
+
+The above can be considerably simplified. First we introduce a new
+vector $\mathbf{w}\in M_{D,K}$ defined as $\mathbf{w}\equiv\left[w_{1}^{T},w_{2}^{T},\ldots,w_{K}^{T}\right]^{T}$
+and then rewrite (\ref{eq:RW=00003DSWW1}) in vector form to get 
+
+\begin{equation}
+R\mathbf{w}=S(\mathbf{w})\mathbf{w}
+\end{equation}
+where 
+
+\begin{equation}
+R\equiv\left[\begin{array}{cccc}
+R_{1} & 0_{K} & \cdots & 0_{K}\\
+0_{K} & R_{2} & \cdots & 0_{K}\\
+0_{K} & \cdots & \ddots & 0_{K}\\
+0_{K} & \cdots & \cdots & R_{K}
+\end{array}\right]\label{eq:Rdef}
+\end{equation}
+is a $KD\times KD$ matrix and 
+
+\begin{equation}
+S(\mathbf{w})\equiv\left[\begin{array}{ccc}
+w_{1}^{T}R_{1}w_{1}I_{K} & \cdots & \frac{1}{2}\left(w_{1}^{T}R_{1}w_{K}+w_{K}^{T}R_{K}w_{1}\right)I_{K}\\
+\frac{1}{2}\left(w_{1}^{T}R_{1}w_{2}+w_{2}^{T}R_{2}w_{1}\right)I_{K} & \cdots & \frac{1}{2}\left(w_{2}^{T}R_{2}w_{K}+w_{K}^{T}R_{K}w_{2}\right)I_{K}\\
+\vdots & \ddots & \vdots\\
+\frac{1}{2}\left(w_{1}^{T}R_{1}w_{K}+w_{K}^{T}R_{K}w_{1}\right)I_{K} & \cdots & w_{K}^{T}R_{K}w_{K}I_{K}
+\end{array}\right]\label{eq:S(w)}
+\end{equation}
+a $KD\times KD$ \emph{symmetric} matrix. The reason $S(\mathbf{w})$
+can be made symmetric is because it's closely related to the solution
+to $(\Lambda+\Lambda)^{T}$\textemdash which has to be symmetric.
+The first and second order necessary conditions for a vector $\mathbf{w}_{0}\in M_{D,K}$
+to be a local minimum (feasible point) for the problem in (\ref{eq:EquadW2})
+are as follows:
+
+\begin{equation}
+R\mathbf{w}_{0}=S(\mathbf{w}_{0})\mathbf{w}_{0}\label{eq:1storderneccond}
+\end{equation}
+and 
+
+\begin{equation}
+\left(R-S(\mathbf{w}_{0})\right)|_{TM(\mathbf{w}_{0})}\label{eq:2ndordneccond}
+\end{equation}
+is negative semi-definite. In (\ref{eq:2ndordneccond}), $TM(\mathbf{w}_{0})$
+is the tangent space of the Stiefel manifold at $\mathbf{w}_{0}$.
+In a \emph{tour de force} proof, Rapcs\'{a}k further shows in \citep{Rapcsak2002}
+that if the matrix $\left(R-S(\mathbf{w}_{0})\right)$ is negative
+semi-definite, then a feasible point $\mathbf{w}_{0}$ is a \emph{global
+minimum}. This is an important result since it adds a sufficient condition
+for a global minimum for the problem of minimizing a heterogeneous
+sum of quadratic forms on a Stiefel manifold.\footnote{Note that this problem is fundamentally different from and cannot
+be reduced to the minimization of $\mathrm{trace}\left(AW^{T}BW\right)$
+subject to $W^{T}W=I_{K}$ which has a closed form solution.}
+
+\subsubsection{The RKHS setting}
+
+We can readily extend the above analysis to the kernel version of
+the squared inner product. The complete objective function w.r.t.
+both the coefficients $A$ and the auxiliary variable $Z$ is 
+
+\begin{equation}
+E_{\mathrm{Kequiv}}(A,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-\sum_{j=1}^{N}z_{ki_{k}}\alpha_{kj}K(x_{j},x_{i_{k}})+\frac{1}{2}z_{ki_{k}}^{2}\right].
+\end{equation}
+Setting $z_{ki_{k}}=\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})$
+which is the optimum solution for $Z$, we get
+
+\begin{eqnarray}
+E_{\mathrm{Kquad}}(A) & = & -\frac{1}{2}\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[\sum_{j=1}^{N}\alpha_{kj}\left(K(x_{j},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}K(x_{j},x_{i_{k}})\right)\right]^{2}\nonumber \\
+ & = & -\frac{1}{2}\sum_{k=1}^{K}\boldsymbol{\alpha}_{k}^{T}G_{k}\boldsymbol{\alpha}_{k}\label{eq:EKquadalpha}
+\end{eqnarray}
+where $\left[\boldsymbol{\alpha}_{k}\right]_{j}=\alpha_{kj}$, $A=\left[\boldsymbol{\alpha}_{1},\boldsymbol{\alpha}_{2},\ldots,\boldsymbol{\alpha}_{K}\right]^{T}$
+and
+
+\begin{eqnarray}
+\left[G_{k}\right]_{jm} & \equiv & \sum_{i_{k}\in C_{k}}\left(K(x_{j},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}K(x_{j},x_{i})\right)\nonumber \\
+ &  & \,\,\,\,\,\cdot\left(K(x_{m},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}K(x_{m},x_{i})\right)\label{eq:Gkjm}
+\end{eqnarray}
+The constraints on $A$ can be written as 
+
+\begin{equation}
+AGA^{T}=I_{K}\Rightarrow\left(G^{\frac{1}{2}}A^{T}\right)^{T}\left(G^{\frac{1}{2}}A^{T}\right)=I_{K}.
+\end{equation}
+Introducing a new variable $B=G^{\frac{1}{2}}A^{T}$, we may rewrite
+the kernel objective function and constraints as
+
+\begin{equation}
+E_{\mathrm{Kquadnew}}(B)=-\frac{1}{2}\sum_{k=1}^{K}\boldsymbol{\beta}_{k}^{T}H\boldsymbol{\beta}_{k}\equiv-\frac{1}{2}\sum_{k=1}^{K}\boldsymbol{\beta}_{k}^{T}G^{-\frac{1}{2}}G_{k}G^{-\frac{1}{2}}\boldsymbol{\beta}_{k}\label{eq:EKquadnew}
+\end{equation}
+(where $B\equiv\left[\boldsymbol{\beta}_{1},\boldsymbol{\beta}_{2},\ldots,\boldsymbol{\beta}_{K}\right]$)
+and
+
+\begin{equation}
+B^{T}B=I_{K}\label{eq:Bconstraints}
+\end{equation}
+respectively. This is now in the same form as the objective function
+and constraints in Section~\ref{subsec:Euclidean-setting} and therefore
+the Rapcs\'{a}k analysis of that section can be directly applied
+here. The above change of variables is predicated on the positive
+definiteness of $G$. If this is invalid, principal component analysis
+has to be applied to $G$ resulting in a positive definite matrix
+in a reduced space after which the above approach can be applied. 
+
+In addition to providing necessary conditions for global minima, the
+authors in \citep{BollaMichaletzkyTusnadyEtAl1998} developed an iterative
+procedure as a method for a solution. We have adapted this to suit
+our purposes. A block coordinate descent algorithm which successively
+updates $W$ and $Z$ is presented in Algorithm~\ref{alg:Iterative-Process}
+
+\begin{algorithm}[H]
+\begin{itemize}
+\item \textbf{Input}: A set of labeled patterns $\left\{ x_{i_{k}}\right\} _{1}^{|C_{k}|},\forall k\in\left\{ 1,\ldots,K\right\} $.
+\item \textbf{Initialize}:
+\begin{itemize}
+\item Convergence threshold~~$\epsilon$.
+\item Arbitrary orthonormal system $W^{\left(0\right)}$.
+\end{itemize}
+\item \textbf{Repeat}
+\begin{itemize}
+\item Calculate the sequence $\left[\begin{array}{cccc}
+W^{\left(1\right)}, & W^{\left(2\right)}, & \ldots & ,W^{\left(m\right)}\end{array}\right]$ . Assume $W^{\left(m\right)}$ is constructed for $m=0,1,2,\ldots$
+\item Update the auxiliary variable $Z^{(m+1)}$~, under the constraint
+~$\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\forall k$,
+\begin{itemize}
+\item $z_{ki_{k}}^{(m+1)}=\left(w^{(m)}\right)_{k}^{T}x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}\left(w^{(m)}\right)_{k}^{T}x_{i_{k}}$for
+the sum of squares of inner products objective function.
+\end{itemize}
+\item Perform the SVD decomposition on $\left[\sum_{i_{1}\in C_{1}}z_{1i_{1}}^{(m+1)}x_{i_{1}},\ldots,\sum_{i_{k}\in C_{k}}z_{ki_{k}}^{(m+1)}x_{i_{k}}\right]$
+to get $U^{(m+1)}S^{(m+1)}\left(V^{(m+1)}\right)^{T}$ where $S^{(m+1)}$
+is $K\times K$. 
+\item $W^{(m+1)}=U^{(m+1)}\left(V^{(m+1)}\right)^{T}$, the polar decomposition.
+\end{itemize}
+\item \textbf{Loop until} $\|W^{(m+1)}-W^{(m)}\|_{F}\leq\epsilon$.
+\item \textbf{Output}: $W$
+\end{itemize}
+\caption{Iterative process for minimization of the sum of squares of inner
+products objective function. \label{alg:Iterative-Process}}
+\end{algorithm}
+

@@ -1,0 +1,599 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass elsarticle
+\begin_preamble
+
+
+\usepackage{lineno}
+\modulolinenumbers[5]
+
+\journal{Journal of \LaTeX\ Templates}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\end_preamble
+\options review
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding iso8859-15
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks false
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frontmatter}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+Elsevier LaTeX
+\begin_inset space \space{}
+\end_inset
+
+template
+\begin_inset Flex Flex:Titlenotemark
+status collapsed
+
+\begin_layout Plain Layout
+mytitlenote
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title footnote
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+mytitlenote
+\end_layout
+
+\end_inset
+
+Fully documented templates are available in the elsarticle package on 
+\begin_inset CommandInset href
+LatexCommand href
+name "CTAN"
+target "http://www.ctan.org/tex-archive/macros/latex/contrib/elsarticle"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%% Group authors per affiliation:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Elsevier
+\begin_inset Flex Flex:Authormark
+status collapsed
+
+\begin_layout Plain Layout
+myfootnote
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+Radarweg 29, Amsterdam
+\end_layout
+
+\begin_layout Author footnote
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+myfootnote
+\end_layout
+
+\end_inset
+
+Since 1880.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%% or include affiliations in footnotes:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+mymainaddress,mysecondaryaddress
+\end_layout
+
+\end_inset
+
+Elsevier Inc
+\end_layout
+
+\begin_layout Email
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+url
+\end_layout
+
+\end_inset
+
+www.elsevier.com
+\end_layout
+
+\begin_layout Author
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+mysecondaryaddress
+\end_layout
+
+\end_inset
+
+Global Customer Service
+\begin_inset Flex Flex:CorAuthormark
+status collapsed
+
+\begin_layout Plain Layout
+mycorrespondingauthor
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Corresponding author
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+mycorrespondingauthor
+\end_layout
+
+\end_inset
+
+Corresponding author
+\end_layout
+
+\begin_layout Email
+support@elsevier.com
+\end_layout
+
+\begin_layout Address
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+mymainaddress
+\end_layout
+
+\end_inset
+
+1600 John F Kennedy Boulevard, Philadelphia
+\end_layout
+
+\begin_layout Address
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+mysecondaryaddress
+\end_layout
+
+\end_inset
+
+360 Park Avenue South, New York
+\end_layout
+
+\begin_layout Abstract
+This template helps you to create a properly formatted LaTeX
+\begin_inset space \space{}
+\end_inset
+
+manuscript.
+ 
+\end_layout
+
+\begin_layout Keywords
+
+\family typewriter
+elsarticle.cls
+\family default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+sep
+\end_layout
+
+\end_inset
+
+ LaTeX
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+sep
+\end_layout
+
+\end_inset
+
+ Elsevier 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+sep
+\end_layout
+
+\end_inset
+
+ template 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+MSC
+\end_layout
+
+\end_inset
+
+[2010] 00-01
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+sep
+\end_layout
+
+\end_inset
+
+ 99-00 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frontmatter}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linenumbers
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+The Elsevier article class
+\end_layout
+
+\begin_layout Paragraph
+Installation
+\end_layout
+
+\begin_layout Standard
+If the document class 
+\emph on
+elsarticle
+\emph default
+ is not available on your computer, you can download and install the system
+ package 
+\emph on
+texlive-publishers
+\emph default
+ (Linux) or install the LaTeX
+\begin_inset space \space{}
+\end_inset
+
+package 
+\emph on
+elsarticle
+\emph default
+ using the package manager of your TeX
+\begin_inset space \space{}
+\end_inset
+
+installation, which is typically TeX
+\begin_inset space \space{}
+\end_inset
+
+Live or MikTeX.
+\end_layout
+
+\begin_layout Paragraph
+Usage
+\end_layout
+
+\begin_layout Standard
+Once the package is properly installed, you can use the document class 
+\emph on
+elsarticle
+\emph default
+ to create a manuscript.
+ Please make sure that your manuscript follows the guidelines in the Guide
+ for Authors of the relevant journal.
+ It is not necessary to typeset your manuscript in exactly the same way
+ as an article, unless you are submitting to a camera-ready copy (CRC) journal.
+\end_layout
+
+\begin_layout Paragraph
+Functionality
+\end_layout
+
+\begin_layout Standard
+The Elsevier article class is based on the standard article class and supports
+ almost all of the functionality of that class.
+ In addition, it features commands and options to format the 
+\end_layout
+
+\begin_layout Itemize
+document style 
+\end_layout
+
+\begin_layout Itemize
+baselineskip 
+\end_layout
+
+\begin_layout Itemize
+front matter 
+\end_layout
+
+\begin_layout Itemize
+keywords and MSC codes 
+\end_layout
+
+\begin_layout Itemize
+theorems, definitions and proofs 
+\end_layout
+
+\begin_layout Itemize
+lables of enumerations 
+\end_layout
+
+\begin_layout Itemize
+citation style and labeling.
+ 
+\end_layout
+
+\begin_layout Section
+Front matter
+\end_layout
+
+\begin_layout Standard
+The author names and affiliations could be formatted in two ways:
+\end_layout
+
+\begin_layout Standard
+[(1)] 
+\end_layout
+
+\begin_layout Enumerate
+Group the authors per affiliation.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Use footnotes to indicate the affiliations.
+ 
+\end_layout
+
+\begin_layout Standard
+See the front matter of this document for examples.
+ You are recommended to conform your choice to the journal you are submitting
+ to.
+\end_layout
+
+\begin_layout Section
+Bibliography styles
+\end_layout
+
+\begin_layout Standard
+There are various bibliography styles available.
+ You can select the style of your choice in the preamble of this document.
+ These styles are Elsevier styles based on standard styles like Harvard
+ and Vancouver.
+ Please use BibTeX
+\begin_inset space \space{}
+\end_inset
+
+to generate your bibliography and include DOIs whenever available.
+\end_layout
+
+\begin_layout Standard
+Here are two sample references: 
+\end_layout
+
+\begin_layout Section*
+References
+\end_layout
+
+\begin_layout Standard
+ 
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "mybibfile"
+options "elsarticle-num"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

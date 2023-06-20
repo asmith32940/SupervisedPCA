@@ -1,0 +1,234 @@
+
+\section{Experimental Results}
+
+\subsection{Quantitative results for linear and kernel dimensionality reduction}
+
+In practice, dimensionality reduction is used in conjunction with
+a classification algorithm. By definition the purpose of dimensionality
+reduction as it relates to classification, is to reduce the complexity
+of the data while retaining discriminating information. Thus we utilize
+a popular classification algorithm in order to analyze the performance
+of our proposed dimensionality reduction technique. In this section,
+we report the results of several experiments with dimensionality reduction
+combined with SVM classification. In the multi-class setting, we compare
+against other state-of-the-art algorithms that perform dimensionality
+reduction and then evaluate the performance using the multi-class
+one-vs-all linear SVM scheme. The classification technique uses the
+traditional training and testing phases, outputting the class it considers
+the best prediction for a given test sample. We measure the accuracy
+of these predictions averaged over all test sets. In Table~(\ref{tab:List-of-test-results}),
+we demonstrate the effectiveness of both the sum of quadratic and
+absolute value functions, denoted as category quadratic space (CQS)
+and category absolute value space (CAS) respectively. Then, we benchmark
+their overall classification accuracy against several classical dimensionality
+reduction techniques, namely, least squares linear discriminant analysis
+(LS-LDA) \citep{Ye2007}, Fisher linear discriminant (MC-FLD) \citep{fisher1936use},
+principal component analysis (PCA) \citep{rao1964use} and their multi-class
+and kernel counterparts (when applicable). In each experiment, we
+choose two thirds of the data for training and the remaining third
+of the samples were used for testing. The results are shown in Table~(\ref{tab:List-of-test-results}).
+
+\textbf{Databases}: To illustrate the performance of the methods proposed
+in Section~\ref{Category-Vector-Space}, we conducted experiments
+using different publicly available data sets taken from the UCI machine
+learning data repository \citep{Lichman:2013}. We have chosen a variety
+of data sets that vary in terms of class cardinality ($K$), samples
+($N$) and number of features ($D$) to demonstrate the versatility
+of our approach. For a direct comparison of results, we chose the
+same data sets:; Vehicle, Wine, Iris, Seeds, Thyroid, Satellite, Segmentation,
+and Vertebral Silhouettes recognition databases. More details about
+the individual sets are available at the respective repository sites.
+
+We divide the results into the linear and kernel groups (as is normal
+practice). The obtained results for linear dimensionality reduction
+with SVM linear classification are shown in Table~(\ref{tab:List-of-test-results})
+. All dimensionality reduction algorithms were implemented and configured
+for optimal classification results (via cross-validation) with a linear
+SVM classifier. It can be seen that the category space projection
+scheme consistently provides a good projection for a standard classification
+algorithms to be executed. Several of the data sets are comprise only
+three classes and it can be seen that the proposed method is competitive
+in performance and in some instances performs slightly better. 
+
+\begin{table}[H]
+\medskip{}
+
+\caption{Linear dimensionality reduction w/ SVM classification..\label{tab:List-of-test-results}}
+
+\centering{}%
+\begin{tabular}{lccccc}
+\hline 
+\textbf{Name (\# Classes)} & \textbf{CQS} & \textbf{CAS} & \textbf{LS-LDA} & \textbf{PCA} & \textbf{MC-FLD}\tabularnewline
+\hline 
+Vehicle (4) & 53.91 & 53.05 & 76.56 & 55.36 & 76.82\tabularnewline
+Wine (3) & 96.07 & 96.82 & 95.51 & 77.19 & 97.28\tabularnewline
+Iris (3) & 97.55 & 96.88 & 96.11 & 96.77 & 96.77\tabularnewline
+Seeds (3) & 90.39 & 90.79 & 95.15 & 92.53 & 95.79\tabularnewline
+thyroid (3) & 94.02 & 94.08 & 94.02 & 92.57 & 93.92\tabularnewline
+Satellite (6) & 85.30 & 85.20 & 86.38 & 85.45 & 86.52\tabularnewline
+Segmentation (7) & 93.14 & 93.44 & 94.62 & 94.40 & 94.43\tabularnewline
+Vertebral (3) & 84.13 & 82.79 & 81.45 & 80.05 & 81.18\tabularnewline
+\hline 
+\end{tabular}
+\end{table}
+
+Also for comparison, Table~(\ref{tab:List-of-test-results-kernel-norm})
+reports the performance of the proposed kernel formulations followed
+by a linear SVM classifier. These proposed methods also achieve accuracy
+rates similar to their kernel counterparts. 
+
+\begin{table}[H]
+\medskip{}
+
+\caption{Kernel dimensionality reduction w/ SVM classification. \label{tab:List-of-test-results-kernel-norm}}
+
+\centering{}%
+\begin{tabular}{lcccc}
+\hline 
+\textbf{Name (\# Classes)} & \textbf{K-CQS} & \textbf{K-CAS} & \textbf{K-PCA} & \textbf{K-MC-FLD}\tabularnewline
+\hline 
+Vehicle (4) & 40.27 & 40.92 & 44.81 & 74.35\tabularnewline
+Wine (3) & 92.95 & 95.63 & 95.95 & 96.88\tabularnewline
+Iris (3) & 95.55 & 93.33 & 95.55 & 94.44\tabularnewline
+Seeds (3) & 90.21 & 90.47 & 91.53 & 93.65\tabularnewline
+thyroid (3) & 41.97 & 40.24 & 43.08 & 72.34\tabularnewline
+Satellite (6) & 81.54 & 86.23 & 89.69 & 90.61\tabularnewline
+Segmentation (7) & 72.96 & 77.24 & 83.01 & 92.43\tabularnewline
+Vertebral (3) & 70.96 & 69.53 & 70.96 & 82.25\tabularnewline
+\hline 
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\medskip{}
+
+\caption{Kernel dimensionality reduction w/ angle classification. \label{tab:List-of-test-results-kernel-zscore-angle}}
+
+\centering{}%
+\begin{tabular}{lcc}
+\hline 
+\textbf{Name (\# Classes)} & \textbf{K-CQS-A} & \textbf{K-CAS-A}\tabularnewline
+\hline 
+Vehicle (4) & 67.96 & 68.24\tabularnewline
+Wine (3) & 95.32 & 95.32\tabularnewline
+Iris (3) & 95.55 & 95.18\tabularnewline
+Seeds (3) & 91.79 & 91.79\tabularnewline
+thyroid (3) & 67.90 & 66.79\tabularnewline
+Satellite (6) & 83.33 & 76.29\tabularnewline
+Segmentation (7) & 50.21 & 48.94\tabularnewline
+Vertebral (3) & 77.59 & 77.77\tabularnewline
+\hline 
+\end{tabular}
+\end{table}
+
+The iterative approach in Algorithm (\ref{alg:Iterative-Process})
+was applied to obtain an optimal orthonormal basis $W$ (which is
+$D\times K$) for the category space, where $D$ dimensional input
+patterns can be projected to the smaller $K$ dimensional category
+space if $D>K$. We start with a set of $N$ labeled, input vectors
+$x_{i}\in\mathbf{R}^{D}$ drawn randomly from multiple classes $C_{k},\,k\in\{1,\ldots,K\}$.
+The optimization technique searches over Steifel manifold elements
+as explained above. The algorithm is terminated when the Frobenius
+norm difference between iterations, $\|W^{(m-1)}-W^{(m)}\|_{F}\le\epsilon$
+(with $\epsilon=10^{-8}$). Once we have determined the optimal $W$,
+the patterns are mapped to the category space by the transformation
+$y_{i}=W^{T}x_{i}$ , to obtain the corresponding set of $N$ samples
+$y_{i}\in\mathbf{R}^{K}$ , where $K$ is the reduced dimensional
+space. 
+
+The results above show that our proposed methods lead to classification
+rates that can be compared to classical approaches. But, the main
+focus of this work is to provide an algorithm that retains important
+classification information while introducing a geometry (category
+vector subspace) which has attractive semantic and visualization properties.
+The results suggest that our classification results are competitive
+with other techniques while learning a category space.
+
+\subsection{Visualization of kernel dimensionality reduction}
+
+Another valuable aspect of this research can be seen in the kernel
+formulation which demonstrates warping of the projected patterns towards
+their respective category axes. This suggests a geometric approach
+to classification, i.e. we could consider the angle of deviation of
+a test set pattern from each category axis as a measure of class membership.
+Within the category space, a base category is represented by the bases
+(axes) that define the category space. Class membership is therefore
+inversely proportional to the angle between the pattern and the respective
+category axis. Figures~(\ref{fig:category-space-reduced}) through
+(\ref{fig:category-space-reduced-lg-sigma}) illustrate the warped
+space for various three class problems, for a variation in the width
+parameter ($\sigma)$ of a Gaussian radial basis function kernel in
+the range $\sigma=[0.1,\,0.8]$. Note the improved visualization semantics
+of the category space approach when compared to the other dimensionality
+reduction techniques.
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\begin{tabular}{|c|c|c|}
+\hline 
+\includegraphics[scale=0.15]{all-veterbal} & \includegraphics[scale=0.15]{all-vertebral-pca} & \includegraphics[scale=0.15]{all-vertebral-fld}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-thyroid} & \includegraphics[scale=0.15]{all-thyroid-pca} & \includegraphics[scale=0.15]{all-thyroid-fld}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-wine} & \includegraphics[scale=0.15]{all-wine-pca} & \includegraphics[scale=0.15]{all-wine-fld}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-iris} & \includegraphics[scale=0.15]{all-iris-pca} & \includegraphics[scale=0.15]{all-iris-fld}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-seeds} & \includegraphics[scale=0.15]{all-seeds-pca} & \includegraphics[scale=0.15]{all-seeds-fld}\tabularnewline
+\hline 
+\textbf{K-CQS} & \textbf{K-PCA} & \textbf{K-MC-FLD}\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+\caption{Reduced dimensionality projection for a medium $\sigma$ value: From
+top to bottom: Vertebral, Thyroid, Wine, Iris, Seeds.\label{fig:category-space-reduced}}
+\end{figure}
+\par\end{center}
+
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\begin{tabular}{|c|c|c|}
+\hline 
+\includegraphics[scale=0.15]{all-veterbal-sm} & \includegraphics[scale=0.15]{all-vertebral-pca-sm} & \includegraphics[scale=0.15]{all-vertebral-fld-sm}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-thyroid-sm} & \includegraphics[scale=0.15]{all-thyroid-pca-sm} & \includegraphics[scale=0.15]{all-thyroid-fld-sm}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-wine-sm} & \includegraphics[scale=0.15]{all-wine-pca-sm} & \includegraphics[scale=0.15]{all-wine-fld-sm}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-wine-sm} & \includegraphics[scale=0.15]{all-iris-pca-sm} & \includegraphics[scale=0.15]{all-iris-fld-sm}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-seeds-sm} & \includegraphics[scale=0.15]{all-seeds-pca-sm} & \includegraphics[scale=0.15]{all-seeds-fld-sm}\tabularnewline
+\hline 
+\textbf{K-CQS} & \textbf{K-PCA} & \textbf{K-MC-FLD}\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+\caption{Reduced dimensionality projection for a small $\sigma$ value. From
+top to bottom: Vertebral, Thyroid, Wine, Iris, Seeds.\label{fig:category-space-reduced-md-sigma}}
+\end{figure}
+\par\end{center}
+
+\begin{center}
+\begin{figure}[H]
+\begin{centering}
+\begin{tabular}{|c|c|c|}
+\hline 
+\includegraphics[scale=0.15]{all-veterbal-lg} & \includegraphics[scale=0.15]{all-vertebral-pca-lg} & \includegraphics[scale=0.15]{all-vertebral-fld-lg}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-thyroid-lg} & \includegraphics[scale=0.15]{all-thyroid-pca-lg} & \includegraphics[scale=0.15]{all-thyroid-fld-lg}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-wine-lg} & \includegraphics[scale=0.15]{all-wine-pca-lg} & \includegraphics[scale=0.15]{all-wine-fld-lg}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-iris-lg} & \includegraphics[scale=0.15]{all-iris-pca-lg} & \includegraphics[scale=0.15]{all-iris-fld-lg}\tabularnewline
+\hline 
+\includegraphics[scale=0.15]{all-seeds-lg} & \includegraphics[scale=0.15]{all-iris-pca-lg} & \includegraphics[scale=0.15]{all-iris-fld-lg}\tabularnewline
+\hline 
+\textbf{K-CQS} & \textbf{K-PCA} & \textbf{K-MC-FLD}\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+\caption{Reduced dimensionality projection for a large $\sigma$ value. From
+top to bottom: Vertebral, Thyroid, Wine, Iris, Seeds.\label{fig:category-space-reduced-lg-sigma}}
+\end{figure}
+\par\end{center}

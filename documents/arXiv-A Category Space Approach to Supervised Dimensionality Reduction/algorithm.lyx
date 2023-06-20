@@ -1,0 +1,1447 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+An algorithm for supervised dimensionality reduction
+\end_layout
+
+\begin_layout Standard
+We now return to the objective functions and constraints in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EWZ2"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EWZabs"
+
+\end_inset
+
+) prior to tackling the corresponding kernel versions in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Kquadobj"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Kabsobj"
+
+\end_inset
+
+) respectively.
+ It turns out that the approach for minimizing the former can be readily
+ generalized to the latter with the former being easier to analyze.
+ Note that the objective functions in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EWZ2"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EWZabs"
+
+\end_inset
+
+) are identical w.r.t.
+ 
+\begin_inset Formula $W$
+\end_inset
+
+.
+ Consequently, we dispense with the optimization problems w.r.t.
+ 
+\begin_inset Formula $Z$
+\end_inset
+
+ which are straightforward and focus on the optimization problem w.r.t.
+ 
+\begin_inset Formula $W$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Weight matrix estimation with orthogonality constraints
+\end_layout
+
+\begin_layout Standard
+The objective function and constraints on 
+\begin_inset Formula $W$
+\end_inset
+
+ can be written as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{equiv}}(W)=-\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}z_{ki_{k}}w_{k}^{T}x_{i_{k}}\label{eq:Eequiv}
+\end{equation}
+
+\end_inset
+
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+w_{k}^{T}w_{l}=\left\{ \begin{array}{cc}
+1, & k=l\\
+0, & k\neq l
+\end{array}.\right.\label{eq:wkwlconstraintsfinal}
+\end{equation}
+
+\end_inset
+
+Note that the set 
+\begin_inset Formula $Z$
+\end_inset
+
+ is not included in this objective function despite its presence in the
+ larger objective functions of (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EWZ2"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EWZabs"
+
+\end_inset
+
+).
+ The orthonormal constraints can be expressed using a Lagrange parameter
+ matrix to obtain the following Lagrangian:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L(W,\Lambda)=-\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}z_{ki_{k}}w_{k}^{T}x_{i_{k}}+\mbox{trace}\left\{ \Lambda\left(W^{T}W-I_{K}\right)\right\} .\label{eq:Lagrangianortho}
+\end{equation}
+
+\end_inset
+
+Setting the gradient of 
+\begin_inset Formula $L$
+\end_inset
+
+ w.r.t.
+ 
+\begin_inset Formula $W$
+\end_inset
+
+ to zero, we obtain
+\begin_inset Formula 
+\begin{equation}
+\nabla_{W}L\left(W,\Lambda\right)=-Y+W\left(\Lambda+\Lambda^{T}\right)=0\label{eq:gradLagrangian}
+\end{equation}
+
+\end_inset
+
+where the matrix 
+\begin_inset Formula $Y$
+\end_inset
+
+ of size 
+\begin_inset Formula $D\times K$
+\end_inset
+
+ is defined as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Y\equiv\left[\sum_{i_{1}\in C_{1}}z_{1i_{1}}x_{i_{1}},\ldots,\sum_{i_{k}\in C_{k}}z_{ki_{k}}x_{i_{k}}\right]\label{eq:Ydef}
+\end{equation}
+
+\end_inset
+
+Using the constraint 
+\begin_inset Formula $W^{T}W=I_{K}$
+\end_inset
+
+ , we get 
+\begin_inset Formula 
+\begin{equation}
+\left(\Lambda+\Lambda^{T}\right)=W^{T}Y.\label{eq:lambdasol}
+\end{equation}
+
+\end_inset
+
+Since 
+\begin_inset Formula $\left(\Lambda+\Lambda^{T}\right)$
+\end_inset
+
+ is symmetric, this immediately implies that 
+\begin_inset Formula $W^{T}Y$
+\end_inset
+
+ is symmetric.
+ From (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:gradLagrangian"
+
+\end_inset
+
+), we also get 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(\Lambda+\Lambda^{T}\right)W^{T}W\left(\Lambda+\Lambda^{T}\right)=\left(\Lambda+\Lambda^{T}\right)^{2}=Y^{T}Y.\label{eq:lambdasol2}
+\end{equation}
+
+\end_inset
+
+Expanding 
+\begin_inset Formula $Y$
+\end_inset
+
+ using its singular value decomposition (SVD) as 
+\begin_inset Formula $Y=U\Sigma V^{T}$
+\end_inset
+
+, the above relations can be simplified to 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Y=U\Sigma V^{T}=UV^{T}(V\Sigma V^{T})=W\left(\Lambda+\Lambda^{T}\right)\label{eq:Wsoltmp}
+\end{equation}
+
+\end_inset
+
+giving 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(\Lambda+\Lambda^{T}\right)=V\Sigma V^{T}\label{eq:lambdasolfinal}
+\end{equation}
+
+\end_inset
+
+and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+W=UV^{T}.\label{eq:Wsolfinal}
+\end{equation}
+
+\end_inset
+
+We have shown that the optimal solution for 
+\begin_inset Formula $W$
+\end_inset
+
+ is the polar decomposition of 
+\begin_inset Formula $Y$
+\end_inset
+
+, namely 
+\begin_inset Formula $W=UV^{T}$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $Z$
+\end_inset
+
+ has been held fixed during the estimation of 
+\begin_inset Formula $W$
+\end_inset
+
+, in the subsequent step we can hold 
+\begin_inset Formula $W$
+\end_inset
+
+ fixed and solve for 
+\begin_inset Formula $Z$
+\end_inset
+
+ and repeat.
+ We thereby obtain an alternating algorithm which iterates between estimating
+ 
+\begin_inset Formula $W$
+\end_inset
+
+ and 
+\begin_inset Formula $Z$
+\end_inset
+
+ until a convergence criterion is met.
+ 
+\end_layout
+
+\begin_layout Subsection
+Estimation of the auxiliary variable 
+\begin_inset Formula $Z$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The objective function and constraints on 
+\begin_inset Formula $Z$
+\end_inset
+
+ depend on whether we use objective functions based on the square or absolute
+ value of the inner product.
+ We separately consider the two cases.
+\end_layout
+
+\begin_layout Standard
+The inner product squared effective objective function 
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{quadeff}}(Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-z_{ki_{k}}w_{k}^{T}x_{i_{k}}+\frac{1}{2}z_{ki_{k}}^{2}\right]\label{eq:Equadeff}
+\end{equation}
+
+\end_inset
+
+is minimized w.r.t.
+ 
+\begin_inset Formula $Z$
+\end_inset
+
+ subject to the constraints 
+\begin_inset Formula $\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\forall k$
+\end_inset
+
+.
+ The straightforward solution obtained via standard minimization is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+z_{ki_{k}} & = & w_{k}^{T}x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}w_{k}^{T}x_{i_{k}}\\
+ & = & w_{k}^{T}\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}x_{i_{k}}\right).
+\end{array}\label{eq:Zsolquad}
+\end{equation}
+
+\end_inset
+
+The absolute value effective objective function 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{abseff}}(Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-z_{ki_{k}}w_{k}^{T}x_{i_{k}}-\epsilon\sqrt{1-z_{ki_{k}}^{2}}\right]\label{eq:Eabseff}
+\end{equation}
+
+\end_inset
+
+is also minimized w.r.t.
+ 
+\begin_inset Formula $Z$
+\end_inset
+
+ subject to the constraints 
+\begin_inset Formula $\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\forall k$
+\end_inset
+
+.
+ A heuristic solution obtained (eschewing standard minimization) is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+z_{ki_{k}}=\frac{w_{k}^{T}x_{i_{k}}}{\sqrt{\left(w_{k}^{T}x_{i_{k}}\right)^{2}+\epsilon}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}\frac{w_{k}^{T}x_{i_{k}}}{\sqrt{\left(w_{k}^{T}x_{i_{k}}\right)^{2}+\epsilon}}\label{eq:Zsolabs}
+\end{equation}
+
+\end_inset
+
+
+\size small
+which has to be checked to be valid.
+ The heuristic solution acts as an initial condition for constraint satisfaction
+ (which can be quickly obtained via 1D line minimization).
+\end_layout
+
+\begin_layout Subsection
+Extension to the kernel setting
+\end_layout
+
+\begin_layout Standard
+The objective function and constraints on the weight matrix 
+\begin_inset Formula $A$
+\end_inset
+
+ in the kernel setting are 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{Kequiv}}(A)=-\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\sum_{j=1}^{N}z_{ki_{k}}\alpha_{kj}K(x_{j},x_{i_{k}})\label{eq:EKequivA}
+\end{equation}
+
+\end_inset
+
+with the constraints 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+AGA^{T}=I_{K}\label{eq:AGAeqIK}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\left[A\right]_{ki}=\alpha_{ki}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left[G\right]_{ij}=K(x_{i},x_{j})$
+\end_inset
+
+ is the 
+\begin_inset Formula $N\times N$
+\end_inset
+
+ kernel Gram matrix.
+ The constraints can be expressed using a Lagrange parameter matrix to obtain
+ the following Lagrangian:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+L_{\mathrm{ker}}(A,\Lambda) & = & -\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\sum_{j=1}^{N}z_{ki_{k}}\alpha_{kj}K(x_{j},x_{i_{k}})\nonumber \\
+ &  & +\mbox{trace}\left\{ \Lambda_{\mathrm{ker}}\left(AGA^{T}-I_{K}\right)\right\} .\label{eq:Lagrangian_ker}
+\end{eqnarray}
+
+\end_inset
+
+Setting the gradient of 
+\begin_inset Formula $L_{\mathrm{ker}}$
+\end_inset
+
+ w.r.t.
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ to zero, we obtain
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+-Y_{\mathrm{ker}}+(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})AG=0\label{eq:Lagrangian_ker_grad}
+\end{equation}
+
+\end_inset
+
+where the matrix 
+\begin_inset Formula $Y_{\mathrm{ker}}$
+\end_inset
+
+ of size 
+\begin_inset Formula $K\times N$
+\end_inset
+
+ is defined as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[Y_{\mathrm{ker}}\right]_{kj}\equiv\sum_{i_{k}\in C_{k}}z_{ki_{k}}K(x_{j},x_{i_{k}}).\label{eq:Ykerdef}
+\end{equation}
+
+\end_inset
+
+Using the constraint 
+\begin_inset Formula $AGA^{T}=I_{K}$
+\end_inset
+
+, we obtain 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})AGA^{T}(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})=(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})^{2}=Y_{\mathrm{ker}}G^{-1}Y_{\mathrm{ker}}^{T}.\label{eq:lambdakersol}
+\end{equation}
+
+\end_inset
+
+Expanding 
+\begin_inset Formula $Y_{\mathrm{ker}}G^{-\frac{1}{2}}$
+\end_inset
+
+ using its singular value decomposition as 
+\begin_inset Formula $Y_{\mathrm{ker}}G^{-\frac{1}{2}}=U_{\mathrm{ker}}S_{\mathrm{ker}}V_{\mathrm{ker}}^{T}$
+\end_inset
+
+ , the above relations can be simplified to 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+(\Lambda_{\mathrm{ker}}+\Lambda_{\mathrm{ker}}^{T})=U_{\mathrm{ker}}S_{\mathrm{ker}}U_{\mathrm{ker}}^{T}\label{eq:lambdakerfinal}
+\end{equation}
+
+\end_inset
+
+and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+AG^{\frac{1}{2}}=U_{\mathrm{ker}}V_{\mathrm{ker}}^{T}\Rightarrow A=U_{\mathrm{ker}}V_{\mathrm{ker}}^{T}G^{-\frac{1}{2}}.\label{eq:Asolfinal}
+\end{equation}
+
+\end_inset
+
+We have shown that the optimal solution for 
+\begin_inset Formula $A$
+\end_inset
+
+ is related to the polar decomposition of 
+\begin_inset Formula $Y_{\mathrm{ker}}G^{-\frac{1}{2}}$
+\end_inset
+
+ , namely 
+\begin_inset Formula $A=U_{\mathrm{ker}}V_{\mathrm{ker}}^{T}G^{-\frac{1}{2}}$
+\end_inset
+
+ .
+ Since 
+\begin_inset Formula $Z$
+\end_inset
+
+ has been held fixed during the estimation of 
+\begin_inset Formula $A$
+\end_inset
+
+, in the subsequent step we can hold 
+\begin_inset Formula $A$
+\end_inset
+
+ fixed and solve for 
+\begin_inset Formula $Z$
+\end_inset
+
+ and repeat.
+ We thereby obtain an alternating algorithm which iterates between estimating
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $Z$
+\end_inset
+
+ until a convergence criterion is met.
+ This is analogous to the non-kernel version above.
+\end_layout
+
+\begin_layout Standard
+The solutions for 
+\begin_inset Formula $Z$
+\end_inset
+
+ in this setting are very straightforward to obtain.
+ We eschew the derivation and merely state that
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align left
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+z_{ki_{k}} & = & \sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})\\
+ & = & \sum_{j=1}^{N}\alpha_{kj}\left(K(x_{j},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}K(x_{j},x_{i_{k}})\right)
+\end{array}\label{eq:zksqrkersol}
+\end{equation}
+
+\end_inset
+
+for the squared inner product kernel objective and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+z_{ki_{k}}=\frac{\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})}{\sqrt{\left(\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})\right)^{2}+\epsilon}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}\frac{\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})}{\sqrt{\left(\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})\right)^{2}+\epsilon}}\label{eq:zkabskersol}
+\end{equation}
+
+\end_inset
+
+for the absolute valued kernel objective.
+ 
+\size small
+This heuristic solution acts as an initial condition for constraint satisfaction
+ (which can be quickly obtained via 1D line minimization).
+\end_layout
+
+\begin_layout Subsection
+Analysis
+\end_layout
+
+\begin_layout Subsubsection
+Euclidean setting
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Euclidean-setting"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The simplest objective function in the above sequence which has been analyzed
+ in the literature is the one based on the squared inner product.
+ Below, we summarize this work by closely following the treatment in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rapcsak2001minimization,Rapcsak2002"
+
+\end_inset
+
+.
+ First, in order to bring our work in sync with the literature, we eliminate
+ the auxiliary variable 
+\begin_inset Formula $Z$
+\end_inset
+
+ from the squared inner product objective function (treated as a function
+ of both 
+\begin_inset Formula $W$
+\end_inset
+
+ and 
+\begin_inset Formula $Z$
+\end_inset
+
+ here): 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{quadeff}}(W,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-z_{ki_{k}}w_{k}^{T}x_{i_{k}}+\frac{1}{2}z_{ki_{k}}^{2}\right]\label{eq:Equadeff2}
+\end{equation}
+
+\end_inset
+
+Setting 
+\begin_inset Formula $z_{ki_{k}}=w_{k}^{T}\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}x_{i_{k}}\right)$
+\end_inset
+
+ which is the optimum solution for 
+\begin_inset Formula $Z$
+\end_inset
+
+, we get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{quad}}(W)=-\frac{1}{2}\sum_{k=1}^{K}w_{k}^{T}R_{k}w_{k}\equiv-\frac{1}{2}\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[w_{k}^{T}\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}x_{i}\right)\right]^{2}\label{eq:EquadW2}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $R_{k}$
+\end_inset
+
+ is the class-specific covariance matrix:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R_{k}\equiv\sum_{i_{k}\in C_{k}}\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}x_{i}\right)\left(x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}x_{i}\right)^{T}.\label{eq:Rkdef}
+\end{equation}
+
+\end_inset
+
+We seek to minimize (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EquadW2"
+
+\end_inset
+
+) w.r.t.
+ 
+\begin_inset Formula $W$
+\end_inset
+
+ under the orthonormality constraints 
+\begin_inset Formula $W^{T}W=I_{K}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+A set of 
+\begin_inset Formula $K$
+\end_inset
+
+ orthonormal vectors 
+\begin_inset Formula $\left\{ w_{k}\in\mathbf{R}^{D},\,k\in\left\{ 1,\ldots,K\right\} \right\} $
+\end_inset
+
+ in a 
+\begin_inset Formula $D$
+\end_inset
+
+-dimensional Euclidean space is a point on the well known Stiefel manifold,
+ denoted here by 
+\begin_inset Formula $M_{D,K}$
+\end_inset
+
+ with 
+\begin_inset Formula $K\leq D$
+\end_inset
+
+.
+ The problem in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EquadW2"
+
+\end_inset
+
+) is equivalent to the maximization of the sum of heterogeneous quadratic
+ functions on a Stiefel manifold.
+ The functions are heterogeneous in our case since the class-specific covariance
+ matrices 
+\begin_inset Formula $R_{k}$
+\end_inset
+
+ are not identical in general.
+ The Lagrangian corresponding to this problem (with 
+\begin_inset Formula $Z$
+\end_inset
+
+ removed via direct minimization) is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{\mathrm{quad}}(W,\Lambda)=-\frac{1}{2}\sum_{k=1}^{K}w_{k}^{T}R_{k}w_{k}+\mathrm{trace}\left[\Lambda^{T}\left(W^{T}W-I_{K}\right)\right].\label{eq:Lagrangian_quad}
+\end{equation}
+
+\end_inset
+
+Setting the gradient of the above Lagrangian w.r.t.
+ 
+\begin_inset Formula $W$
+\end_inset
+
+ to zero, we obtain 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[R_{1}w_{1},R_{2}w_{2},\ldots,R_{K}w_{K}\right]=W(\Lambda+\Lambda^{T}).\label{eq:RW=SWW1}
+\end{equation}
+
+\end_inset
+
+Noting that 
+\begin_inset Formula $\Lambda+\Lambda^{T}$
+\end_inset
+
+ is symmetric and using the Stiefel orthonormality constraint 
+\begin_inset Formula $W^{T}W=I_{K}$
+\end_inset
+
+, we get 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+(\Lambda+\Lambda^{T})=W^{T}\left[R_{1}w_{1},R_{2}w_{2},\ldots,R_{K}w_{K}\right].
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The above can be considerably simplified.
+ First we introduce a new vector 
+\begin_inset Formula $\mathbf{w}\in M_{D,K}$
+\end_inset
+
+ defined as 
+\begin_inset Formula $\mathbf{w}\equiv\left[w_{1}^{T},w_{2}^{T},\ldots,w_{K}^{T}\right]^{T}$
+\end_inset
+
+ and then rewrite (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:RW=SWW1"
+
+\end_inset
+
+) in vector form to get 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R\mathbf{w}=S(\mathbf{w})\mathbf{w}
+\end{equation}
+
+\end_inset
+
+where 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R\equiv\left[\begin{array}{cccc}
+R_{1} & 0_{K} & \cdots & 0_{K}\\
+0_{K} & R_{2} & \cdots & 0_{K}\\
+0_{K} & \cdots & \ddots & 0_{K}\\
+0_{K} & \cdots & \cdots & R_{K}
+\end{array}\right]\label{eq:Rdef}
+\end{equation}
+
+\end_inset
+
+is a 
+\begin_inset Formula $KD\times KD$
+\end_inset
+
+ matrix and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+S(\mathbf{w})\equiv\left[\begin{array}{ccc}
+w_{1}^{T}R_{1}w_{1}I_{K} & \cdots & \frac{1}{2}\left(w_{1}^{T}R_{1}w_{K}+w_{K}^{T}R_{K}w_{1}\right)I_{K}\\
+\frac{1}{2}\left(w_{1}^{T}R_{1}w_{2}+w_{2}^{T}R_{2}w_{1}\right)I_{K} & \cdots & \frac{1}{2}\left(w_{2}^{T}R_{2}w_{K}+w_{K}^{T}R_{K}w_{2}\right)I_{K}\\
+\vdots & \ddots & \vdots\\
+\frac{1}{2}\left(w_{1}^{T}R_{1}w_{K}+w_{K}^{T}R_{K}w_{1}\right)I_{K} & \cdots & w_{K}^{T}R_{K}w_{K}I_{K}
+\end{array}\right]\label{eq:S(w)}
+\end{equation}
+
+\end_inset
+
+a 
+\begin_inset Formula $KD\times KD$
+\end_inset
+
+ 
+\emph on
+symmetric
+\emph default
+ matrix.
+ The reason 
+\begin_inset Formula $S(\mathbf{w})$
+\end_inset
+
+ can be made symmetric is because it's closely related to the solution to
+ 
+\begin_inset Formula $(\Lambda+\Lambda)^{T}$
+\end_inset
+
+—which has to be symmetric.
+ The first and second order necessary conditions for a vector 
+\begin_inset Formula $\mathbf{w}_{0}\in M_{D,K}$
+\end_inset
+
+ to be a local minimum (feasible point) for the problem in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:EquadW2"
+
+\end_inset
+
+) are as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R\mathbf{w}_{0}=S(\mathbf{w}_{0})\mathbf{w}_{0}\label{eq:1storderneccond}
+\end{equation}
+
+\end_inset
+
+and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(R-S(\mathbf{w}_{0})\right)|_{TM(\mathbf{w}_{0})}\label{eq:2ndordneccond}
+\end{equation}
+
+\end_inset
+
+is negative semi-definite.
+ In (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:2ndordneccond"
+
+\end_inset
+
+), 
+\begin_inset Formula $TM(\mathbf{w}_{0})$
+\end_inset
+
+ is the tangent space of the Stiefel manifold at 
+\begin_inset Formula $\mathbf{w}_{0}$
+\end_inset
+
+.
+ In a 
+\emph on
+tour de force
+\emph default
+ proof, Rapcs
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+'{a}
+\end_layout
+
+\end_inset
+
+k further shows in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Rapcsak2002"
+
+\end_inset
+
+ that if the matrix 
+\begin_inset Formula $\left(R-S(\mathbf{w}_{0})\right)$
+\end_inset
+
+ is negative semi-definite, then a feasible point 
+\begin_inset Formula $\mathbf{w}_{0}$
+\end_inset
+
+ is a 
+\emph on
+global minimum
+\emph default
+.
+ This is an important result since it adds a sufficient condition for a
+ global minimum for the problem of minimizing a heterogeneous sum of quadratic
+ forms on a Stiefel manifold.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that this problem is fundamentally different from and cannot be reduced
+ to the minimization of 
+\begin_inset Formula $\mathrm{trace}\left(AW^{T}BW\right)$
+\end_inset
+
+ subject to 
+\begin_inset Formula $W^{T}W=I_{K}$
+\end_inset
+
+ which has a closed form solution.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+The RKHS setting
+\end_layout
+
+\begin_layout Standard
+We can readily extend the above analysis to the kernel version of the squared
+ inner product.
+ The complete objective function w.r.t.
+ both the coefficients 
+\begin_inset Formula $A$
+\end_inset
+
+ and the auxiliary variable 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{Kequiv}}(A,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-\sum_{j=1}^{N}z_{ki_{k}}\alpha_{kj}K(x_{j},x_{i_{k}})+\frac{1}{2}z_{ki_{k}}^{2}\right].
+\end{equation}
+
+\end_inset
+
+Setting 
+\begin_inset Formula $z_{ki_{k}}=\sum_{j=1}^{N}\alpha_{kj}K(x_{j},x_{i_{k}})$
+\end_inset
+
+ which is the optimum solution for 
+\begin_inset Formula $Z$
+\end_inset
+
+, we get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+E_{\mathrm{Kquad}}(A) & = & -\frac{1}{2}\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[\sum_{j=1}^{N}\alpha_{kj}\left(K(x_{j},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}K(x_{j},x_{i_{k}})\right)\right]^{2}\nonumber \\
+ & = & -\frac{1}{2}\sum_{k=1}^{K}\boldsymbol{\alpha}_{k}^{T}G_{k}\boldsymbol{\alpha}_{k}\label{eq:EKquadalpha}
+\end{eqnarray}
+
+\end_inset
+
+where 
+\begin_inset Formula $\left[\boldsymbol{\alpha}_{k}\right]_{j}=\alpha_{kj}$
+\end_inset
+
+, 
+\begin_inset Formula $A=\left[\boldsymbol{\alpha}_{1},\boldsymbol{\alpha}_{2},\ldots,\boldsymbol{\alpha}_{K}\right]^{T}$
+\end_inset
+
+ and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\left[G_{k}\right]_{jm} & \equiv & \sum_{i_{k}\in C_{k}}\left(K(x_{j},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}K(x_{j},x_{i})\right)\nonumber \\
+ &  & \,\,\,\,\,\cdot\left(K(x_{m},x_{i_{k}})-\frac{1}{|C_{k}|}\sum_{i\in C_{k}}K(x_{m},x_{i})\right)\label{eq:Gkjm}
+\end{eqnarray}
+
+\end_inset
+
+The constraints on 
+\begin_inset Formula $A$
+\end_inset
+
+ can be written as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+AGA^{T}=I_{K}\Rightarrow\left(G^{\frac{1}{2}}A^{T}\right)^{T}\left(G^{\frac{1}{2}}A^{T}\right)=I_{K}.
+\end{equation}
+
+\end_inset
+
+Introducing a new variable 
+\begin_inset Formula $B=G^{\frac{1}{2}}A^{T}$
+\end_inset
+
+, we may rewrite the kernel objective function and constraints as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{Kquadnew}}(B)=-\frac{1}{2}\sum_{k=1}^{K}\boldsymbol{\beta}_{k}^{T}H\boldsymbol{\beta}_{k}\equiv-\frac{1}{2}\sum_{k=1}^{K}\boldsymbol{\beta}_{k}^{T}G^{-\frac{1}{2}}G_{k}G^{-\frac{1}{2}}\boldsymbol{\beta}_{k}\label{eq:EKquadnew}
+\end{equation}
+
+\end_inset
+
+(where 
+\begin_inset Formula $B\equiv\left[\boldsymbol{\beta}_{1},\boldsymbol{\beta}_{2},\ldots,\boldsymbol{\beta}_{K}\right]$
+\end_inset
+
+) and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+B^{T}B=I_{K}\label{eq:Bconstraints}
+\end{equation}
+
+\end_inset
+
+respectively.
+ This is now in the same form as the objective function and constraints
+ in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Euclidean-setting"
+
+\end_inset
+
+ and therefore the Rapcs
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+'{a}
+\end_layout
+
+\end_inset
+
+k analysis of that section can be directly applied here.
+ The above change of variables is predicated on the positive definiteness
+ of 
+\begin_inset Formula $G$
+\end_inset
+
+.
+ If this is invalid, principal component analysis has to be applied to 
+\begin_inset Formula $G$
+\end_inset
+
+ resulting in a positive definite matrix in a reduced space after which
+ the above approach can be applied.
+ 
+\end_layout
+
+\begin_layout Standard
+In addition to providing necessary conditions for global minima, the authors
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BollaMichaletzkyTusnadyEtAl1998"
+
+\end_inset
+
+ developed an iterative procedure as a method for a solution.
+ We have adapted this to suit our purposes.
+ A block coordinate descent algorithm which successively updates 
+\begin_inset Formula $W$
+\end_inset
+
+ and 
+\begin_inset Formula $Z$
+\end_inset
+
+ is presented in Algorithm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Iterative-Process"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Itemize
+
+\series bold
+Input
+\series default
+: A set of labeled patterns 
+\begin_inset Formula $\left\{ x_{i_{k}}\right\} _{1}^{|C_{k}|},\forall k\in\left\{ 1,\ldots,K\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Initialize
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Convergence threshold
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\epsilon$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Arbitrary orthonormal system 
+\begin_inset Formula $W^{\left(0\right)}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Repeat
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Calculate the sequence 
+\begin_inset Formula $\left[\begin{array}{cccc}
+W^{\left(1\right)}, & W^{\left(2\right)}, & \ldots & ,W^{\left(m\right)}\end{array}\right]$
+\end_inset
+
+ .
+ Assume 
+\begin_inset Formula $W^{\left(m\right)}$
+\end_inset
+
+ is constructed for 
+\begin_inset Formula $m=0,1,2,\ldots$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Update the auxiliary variable 
+\begin_inset Formula $Z^{(m+1)}$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+, under the constraint 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\forall k$
+\end_inset
+
+,
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $z_{ki_{k}}^{(m+1)}=\left(w^{(m)}\right)_{k}^{T}x_{i_{k}}-\frac{1}{|C_{k}|}\sum_{i_{k}\in C_{k}}\left(w^{(m)}\right)_{k}^{T}x_{i_{k}}$
+\end_inset
+
+for the sum of squares of inner products objective function.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Perform the SVD decomposition on 
+\begin_inset Formula $\left[\sum_{i_{1}\in C_{1}}z_{1i_{1}}^{(m+1)}x_{i_{1}},\ldots,\sum_{i_{k}\in C_{k}}z_{ki_{k}}^{(m+1)}x_{i_{k}}\right]$
+\end_inset
+
+ to get 
+\begin_inset Formula $U^{(m+1)}S^{(m+1)}\left(V^{(m+1)}\right)^{T}$
+\end_inset
+
+ where 
+\begin_inset Formula $S^{(m+1)}$
+\end_inset
+
+ is 
+\begin_inset Formula $K\times K$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $W^{(m+1)}=U^{(m+1)}\left(V^{(m+1)}\right)^{T}$
+\end_inset
+
+, the polar decomposition.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Loop until
+\series default
+ 
+\begin_inset Formula $\|W^{(m+1)}-W^{(m)}\|_{F}\leq\epsilon$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Output
+\series default
+: 
+\begin_inset Formula $W$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Iterative process for minimization of the sum of squares of inner products
+ objective function.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Iterative-Process"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

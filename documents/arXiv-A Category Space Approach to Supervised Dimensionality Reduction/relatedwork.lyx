@@ -1,0 +1,348 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Related Work
+\begin_inset CommandInset label
+LatexCommand label
+name "Related-Work"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Traditional dimensionality reduction techniques like principal component
+ analysis (PCA) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Jolliffe1986"
+
+\end_inset
+
+, and supervised algorithms such as Fisher linear discriminant analysis
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fisher1936use"
+
+\end_inset
+
+ seek to retain significant features while removing insignificant, redundant,
+ or noisy features.
+ These algorithms are frequently utilized as preprocessing steps before
+ the application of a classification algorithm and have been been successful
+ in solving many real-world problems.
+ A limitation in the vast majority of methods is that there is no specific
+ connection between the dimensionality reduction technique and the supervised
+ learning-driven classifier.
+ Dimensionality reduction techniques such as canonical correlation analysis
+ (CCA) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hotelling1933"
+
+\end_inset
+
+, and partial least squares (PLS) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Arenas-GarciaPetersenHansen2007"
+
+\end_inset
+
+ on the one hand and classification algorithms such as support vector machines
+ (SVM) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Vapnik1998"
+
+\end_inset
+
+ on the other seek to optimize different criteria.
+ In contrast, in this paper, we analyze dimensionality reduction from the
+ perspective of multi-class classification.
+ The use of a category vector space (with dimension equal to class cardinality)
+ is an integral aspect of this approach.
+\end_layout
+
+\begin_layout Standard
+In supervised learning, it is customary for classification methodologies
+ to regard classes as nominal labels without having any internal structure.
+ This remains true regardless of whether a discriminant or classifier is
+ sought.
+ Discriminants are designed by attempting to separate patterns into oppositional
+ classes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bishop1996,DudaHart1973,hastie1996discriminant"
+
+\end_inset
+
+.
+ When generalization to a multi-class classifier is required, many oppositional
+ discriminants are combined with the final classifier being a winner-take-all
+ (or voting-based) decision w.r.t.
+ the set of nominal labels.
+ Convex objective functions based on misclassification error minimization
+ (or approximation) are not that different either.
+ Least-squares or logistic regression methods set up convex objective functions
+ with nominal labels converted to binary outputs 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ye2007,bishop2006pattern"
+
+\end_inset
+
+.
+ When extensions to multi-class are sought, the binary labels are extended
+ to a one of 
+\begin_inset Formula $K$
+\end_inset
+
+ encoding with 
+\begin_inset Formula $K$
+\end_inset
+
+ being the number of classes.
+ Support vector machines (SVM's) were inherently designed for two class
+ discrimination and all formulations of multi-class SVM's extend this opposition
+al framework using one-versus-one or one-versus-all schemes.
+ Below, we begin by describing the different approaches to the multi-class
+ problem.
+ This is not meant to be exhaustive, but provides an overview of some of
+ the popular methods and approaches that have been researched in classification
+ and dimensionality reduction.
+ Folley and Sammon 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sammon1970"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "FoleySammon1975"
+
+\end_inset
+
+ studied the two class problem and feature selection and focused on criteria
+ with greatest potential to discriminate.
+ The goal of feature selection is to find a set of features with the best
+ discrimination properties.
+ To identify the best feature vectors they chose the generalized Fisher
+ optimality criterion proposed by 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "AndersonBahadur1962"
+
+\end_inset
+
+.
+ The selected directions maximize the Fisher criterion which has attractive
+ properties of discrimination.
+ Principal components analysis (PCA) permits the reduction of dimensions
+ of high dimensional data without losing significant information 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hotelling1933,Jolliffe1986,scholkopf1999advances"
+
+\end_inset
+
+.
+ Principal components are a way of identifying patterns or significant features
+ without taking into account discriminative considerations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rao1964use"
+
+\end_inset
+
+.
+ Supervised PCA (SPCA), derived from PCA is a method for obtaining useful
+ sub-spaces when the labels are taken into account.
+ This technique was first described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bair2004semi"
+
+\end_inset
+
+ under the title 
+\begin_inset Quotes eld
+\end_inset
+
+supervised clustering.
+\begin_inset Quotes erd
+\end_inset
+
+ The idea behind SPCA is to perform selective dimensionality reduction using
+ carefully chosen subsets of labeled samples.
+ This is used to build a prediction model 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bair2012prediction"
+
+\end_inset
+
+.
+ While we have addressed the most popular techniques in dimensionality reduction
+ and multi-class classification, this is not an exhaustive study of the
+ literature.
+ Our focus so far is primarily on discriminative dimensionality reduction
+ methods that assist in better multi-class classification performance.
+ The closest we have seen in relation to our work on category spaces is
+ the work in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "widdows2004geometry"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "widdows2003orthogonal"
+
+\end_inset
+
+.
+ Here, they mention the importance and usefulness of modeling categories
+ as vector spaces for document retrieval and explain how unrelated items
+ should have an orthogonal relationship.
+ This is to say that they should have no features in common.
+ The structured SVM in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tsochantaridis2004support"
+
+\end_inset
+
+ is another effort at going beyond nominal classes.
+ Here, classes are allowed to have internal structure in the form of strings,
+ trees etc.
+ However, an explicit modeling of classes as vector spaces is not carried
+ out.
+ 
+\end_layout
+
+\begin_layout Standard
+From the above, the modest goal of the present work should be clear.
+ We seek to project the input feature vectors to a category space—a subspace
+ formed by category basis vectors.
+ The multi-class FLD falls short of this goal since the number of projected
+ dimensions is one less than the number of classes.
+ The multi-class (and more recently multi-label) SVM 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ji2009linear"
+
+\end_inset
+
+ literature is fragmented due to lack of agreement regarding the core issue
+ of multi-class discrimination.
+ The varieties of supervised PCA do not begin by clearly formulating a criterion
+ for category space projection.
+ Variants such as CCA 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "johnson2002applied,sun2011canonical"
+
+\end_inset
+
+, PLS 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "sun2013multi"
+
+\end_inset
+
+ and structured SVM's 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tsochantaridis2004support"
+
+\end_inset
+
+ while attempting to add structure to the categories do not go as far as
+ the present work in attempting to fit a category subspace.
+ Kernel variants of the above also do not touch the basic issue addressed
+ in the present work.
+ Nonlinear (and manifold learning-based) dimensionality reduction techniques
+ are unsupervised and therefore do not qualify.
+\end_layout
+
+\end_body
+\end_document

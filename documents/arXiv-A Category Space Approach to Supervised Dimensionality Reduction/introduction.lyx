@@ -1,0 +1,191 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Introduction
+\begin_inset CommandInset label
+LatexCommand label
+name "Introduction"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Dimensionality reduction and supervised learning have long been active tropes
+ in machine learning.
+ For example, principal component analysis (PCA) and the support vector
+ machine (SVM) are standard bearers for dimensionality reduction and supervised
+ learning respectively.
+ Even now, machine learning researchers are accustomed to performing PCA
+ when seeking a simple dimensionality reduction technique despite the fact
+ that it is an unsupervised learning approach.
+ In the past decade, there has been considerable interest to include supervision
+ (expert label information) into dimensionality reduction techniques.
+ Beginning with the well known EigenFaces versus FisherFaces debate 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BelhumeurHespanhaKriegman1997"
+
+\end_inset
+
+, there has been considerable activity centered around using Fisher linear
+ discriminants (FLD) and other supervised learning approaches in dimensionality
+ reduction.
+ Since the Fisher linear discriminant has a multi-class extension, it is
+ natural to begin there.
+ However, it is also natural to ask the question if this is the only possible
+ approach.
+ In this work, we design a category space approach with the fundamental
+ goal of using multi-class information to aid in dimensionality reduction.
+ The motivation for the approach and the main thrust of this work are our
+ focus, next.
+\end_layout
+
+\begin_layout Standard
+The venerable Fisher discriminant is a supervised dimensionality reduction
+ technique, wherein, a maximally discriminative one dimensional subspace
+ is estimated from the data.
+ The criterion used for discrimination is the ratio between the squared
+ distance of the projected class means and a weighted sum of the projected
+ variances.
+ This criterion has a closed form solution yielding the best 1D subspace.
+ The Fisher discriminant also has an extension to the multi-class case.
+ Here the criterion used is more complex and highly unusual: it is the ratio
+ between a squared distance between each class projected mean and the total
+ projected mean and the sum of the projected variances.
+ This too results in a closed form solution but with the subspace dimension
+ cardinality being one less than the number of classes.
+\end_layout
+
+\begin_layout Standard
+The above description of the multi-class FLD sets the stage for our approach.
+ We begin with the assumption that the set of categories (classes) is a
+ subspace of the original feature space (similar to FLD).
+ However, we add the restriction that the category bases are mutually orthogonal
+ with the origin of the vector space belonging to no category.
+ Given this restriction, the criterion for multi-class category space dimensiona
+lity reduction is quite straightforward: we simply maximize the square of
+ the inner product between each pattern and its own category axis with the
+ aim of discovering the category space via this process.
+ (Setting the origin is a highly technical issue and therefore not described
+ here.) The result is a sum of quadratic objective functions on a Stiefel
+ manifold—the category space of orthonormal basis vectors.
+ This is a very interesting objective function which has coincidentally
+ received quite a bit of treatment recently 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Rapcsak2002,BollaMichaletzkyTusnadyEtAl1998"
+
+\end_inset
+
+.
+ Furthermore, there is no need to restrict ourselves to sums of quadratic
+ objective functions provided we are willing to forego useful analysis of
+ this base case.
+ The unusual aspect of the objective function comprising sums of quadratic
+ objective functions is that we can formulate a criterion which guarantees
+ that we have reached a global minimum if the achieved solution satisfies
+ it.
+ Unfortunately, there is no algorithm at the present time that can 
+\emph on
+a priori
+\emph default
+ guarantee satisfaction of this criterion and hence we can only check on
+ a case by case basis.
+ Despite this, our experimental results show that we get efficient solutions,
+ competitive with those obtained from other dimensionality reduction algorithms.
+ Extensive comparisons are conducted against principal component analysis
+ (PCA) and multi-class Fisher using support vector machine (SVM) classifiers
+ on the reduced set of features.
+ 
+\end_layout
+
+\begin_layout Standard
+It should be clear that the contribution of this paper is to a very old
+ problem in pattern recognition.
+ While numerous alternatives exist to the FLD (such as canonical correlation
+ analysis) and while there are many nonlinear unsupervised dimensionality
+ reduction techniques (such as LLE, ISOMAP and Laplacian Eigenmaps), we
+ have not encountered a simple dimensionality reduction technique which
+ is based on projecting the data into a space spanned by the categories.
+ Obviously, numerous extensions and more abstract formulations of the base
+ case in this paper can be considered, but to reiterate, we have not seen
+ any previous work perform supervised dimensionality reduction in the manner
+ suggested here.
+ 
+\end_layout
+
+\end_body
+\end_document

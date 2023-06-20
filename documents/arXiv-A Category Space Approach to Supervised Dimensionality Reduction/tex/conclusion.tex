@@ -1,0 +1,38 @@
+
+\section{Conclusions}
+
+In this work, we presented a new approach to supervised dimensionality
+reduction\textemdash one that attempts to learn orthogonal category
+axes during training. The motivation for this work stems from the
+observation that the semantics of the multi-class Fisher linear discriminant
+are unclear especially w.r.t. defining a space for the categories
+(classes). Beginning with this observation, we designed an objective
+function comprising sums of quadratic and absolute value functions
+(aimed at maximizing the inner product between each training set pattern
+and its class axes) with Stiefel manifold constraints (since the category
+axes are orthonormal). It turns out that recent work has characterized
+such problems and provided sufficient conditions for the detection
+of global minima (despite the presence of non-convex constraints).
+The availability of a straightforward Stiefel manifold optimization
+algorithm tailored to this problem (which has no step size parameters
+to estimate) is an attractive by-product of this formulation. The
+extension to the kernel setting is entirely straightforward. Since
+the kernel dimensionality reduction approach warps the patterns toward
+orthogonal category axes, this raises the possibility of using the
+angle between each pattern and the category axes as a classification
+measure. We conducted experiments in the kernel setting and demonstrated
+reasonable performance for the angle-based classifier suggesting a
+new avenue for future research. Finally, visualization of dimensionality
+reduction for three classes showcases the category space geometry
+with clear semantic advantages over principal components and multi-class
+Fisher. 
+
+Several opportunities exist for future research. We notice clustering
+of patterns near the origin of the category space, clearly calling
+for an origin margin (as in SVM's). At the same time, we can also
+remove the orthogonality assumption (in the linear case) while continuing
+to pursue multi-class discrimination. Finally, extensions to the multi-label
+case \citep{sun2013multi} are warranted and suggest interesting opportunities
+for future work.
+
+

@@ -1,0 +1,6 @@
+function gkm = gaussianKernel(x1, x2, isigma)
+
+
+gkm = exp(-(x1'*x1)/(2*isigma^2)) *  ...
+    exp((x1'*x2)/(isigma^2)) * ...
+    exp((-x2'*x2)/(2*isigma^2));

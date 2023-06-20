@@ -1,0 +1,561 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Dimensionality Reduction using a Category Space Formulation
+\begin_inset CommandInset label
+LatexCommand label
+name "Category-Vector-Space"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Maximizing the square of the inner product
+\end_layout
+
+\begin_layout Standard
+The principal goal of this paper is a new form of supervised dimensionality
+ reduction.
+ Specifically, when we seek to marry principal component analysis with supervise
+d learning, by far the simplest synthesis is category space dimensionality
+ reduction with orthogonal class vectors.
+ Assume the existence of a feature space with each feature vector 
+\begin_inset Formula $x_{i}\in\mathbf{R}^{D}$
+\end_inset
+
+.
+ Our goal is to perform supervised dimensionality reduction by reducing
+ the number of feature dimensions from 
+\begin_inset Formula $D$
+\end_inset
+
+ to 
+\begin_inset Formula $K$
+\end_inset
+
+ where 
+\begin_inset Formula $K\leq D$
+\end_inset
+
+.
+ Here 
+\begin_inset Formula $K$
+\end_inset
+
+ is the number of classes and the first simplifying assumption made in this
+ work is that we will represent the category space using 
+\begin_inset Formula $K$
+\end_inset
+
+ 
+\emph on
+orthonormal
+\emph default
+ basis vectors 
+\begin_inset Formula $\left\{ w_{k}\right\} $
+\end_inset
+
+ together with an 
+\emph on
+origin
+\emph default
+ 
+\begin_inset Formula $x_{0}\in\mathbf{R}^{D}$
+\end_inset
+
+.
+ The second assumption we make is that each feature vector 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ should have a large magnitude inner product with its assigned class.
+ From the orthonormality constraint above, this automatically implies a
+ small magnitude inner product with all other weight vectors.
+ A 
+\emph on
+candidate objective function
+\emph default
+ and constraints following the above considerations is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E(W)=-\frac{1}{2}\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[w_{k}^{T}\left(x_{i_{k}}-x_{0}\right)\right]^{2}\label{eq:innerprodmax}
+\end{equation}
+
+\end_inset
+
+and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+w_{k}^{T}w_{l}=\left\{ \begin{array}{cc}
+1, & k=l\\
+0, & k\neq l
+\end{array}\right.\label{eq:wkwlinner}
+\end{equation}
+
+\end_inset
+
+respectively.
+ In (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:innerprodmax"
+
+\end_inset
+
+), 
+\begin_inset Formula $W=\left[w_{1},w_{2},\ldots,w_{K}\right]$
+\end_inset
+
+.
+ Note that we have referred to this as a candidate objective function for
+ two reasons.
+ First, the origin 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ is still unspecified and we cannot obviously minimize (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:innerprodmax"
+
+\end_inset
+
+) w.r.t.
+ 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ as the minimum value is not bounded from below.
+ Second, it is not clear why we cannot use the absolute value or other symmetric
+ functions of the inner product.
+ Both these issues are addressed later in this work.
+ At present, we resolve the origin issue by setting 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ to the centroid of all the feature vectors (with this choice getting a
+ principled justification below).
+\end_layout
+
+\begin_layout Standard
+The objective function in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:innerprodmax"
+
+\end_inset
+
+) is the negative of a quadratic function.
+ Since the function 
+\begin_inset Formula $-x^{2}$
+\end_inset
+
+ is concave, it admits a Legendre transform-based majorization 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yuille2003concave"
+
+\end_inset
+
+ using the tangent of the function.
+ That is, we propose to replace objective functions of the form 
+\begin_inset Formula $-\frac{1}{2}x^{2}$
+\end_inset
+
+ with 
+\begin_inset Formula $\min_{y}-xy+\frac{1}{2}y^{2}$
+\end_inset
+
+ which can quickly checked to be valid for an unconstrained auxiliary variable
+ 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ Note that this transformation yields a linear objective function w.r.t.
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ which is to be expected from the geometric interpretation of a tangent.
+ 
+\end_layout
+
+\begin_layout Standard
+Consider the following Legendre transformation of the objective function
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:innerprodmax"
+
+\end_inset
+
+).
+ The new objective function is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{quad}}(W,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[z_{ki_{k}}\left(-w_{k}^{T}x_{i_{k}}+w_{k}^{T}x_{0}\right)+\frac{1}{2}z_{ki_{k}}^{2}\right]\label{eq:EWZ}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $Z=\left\{ z_{ki_{k}}|k\in\left\{ 1,\ldots,K\right\} ,i_{k}\in\left\{ 1,\ldots,|C_{k}|\right\} \right\} $
+\end_inset
+
+.
+ Now consider this to be an objective function over 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ as well.
+ In order to avoid minima at negative infinity, we require additional constraint
+s.
+ One such constraint (and perhaps not the only one) is of the form 
+\begin_inset Formula $\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\forall k$
+\end_inset
+
+.
+ When this constraint is imposed, we obtain a new objective function 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{quad}}(W,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-z_{ki_{k}}w_{k}^{T}x_{i_{k}}+\frac{1}{2}z_{ki_{k}}^{2}\right]\label{eq:EWZ2}
+\end{equation}
+
+\end_inset
+
+to be minimized subject to the constraints 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\forall k\label{eq:sumzequalszero}
+\end{equation}
+
+\end_inset
+
+in addition to the orthonormal constraints in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:wkwlinner"
+
+\end_inset
+
+).
+ This objective function yields a 
+\begin_inset Formula $Z$
+\end_inset
+
+ which removes the class-specific centroid of 
+\begin_inset Formula $C_{k}$
+\end_inset
+
+ for all classes.
+\end_layout
+
+\begin_layout Subsection
+Maximizing the absolute value of the inner product
+\end_layout
+
+\begin_layout Standard
+We have justified our choice of centroid removal mentioned above indirectly
+ obtained via constraints imposed on Legendre transform auxiliary variables.
+ The above objective function can be suitably modified when we use different
+ forms (absolute inner product etc.).
+ To see this, consider the following objective function which minimizes
+ the negative of the magnitude of the inner product:
+\begin_inset Formula 
+\begin{equation}
+E(W)=-\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}|w_{k}^{T}(x_{i_{k}}-x_{0})|.\label{eq:absvalobj}
+\end{equation}
+
+\end_inset
+
+Since 
+\begin_inset Formula $-|x|$
+\end_inset
+
+ is also a concave function, it too can be majorized.
+ Consider first replacing the non-differentiable objective function 
+\begin_inset Formula $-|x|$
+\end_inset
+
+ with 
+\begin_inset Formula $-\sqrt{x^{2}+\epsilon}$
+\end_inset
+
+ (also concave) where 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ can be chosen to be a suitably small value.
+ Now consider replacing 
+\begin_inset Formula $-\sqrt{x^{2}+\epsilon}$
+\end_inset
+
+ with 
+\begin_inset Formula $\min_{y}-xy-\epsilon\sqrt{1-y^{2}}$
+\end_inset
+
+ which can again quickly checked to be valid for a constrained auxiliary
+ variable 
+\begin_inset Formula $y\in\left[-1,1\right]$
+\end_inset
+
+.
+ The constraint is somewhat less relevant since the minimum w.r.t.
+ 
+\begin_inset Formula $y$
+\end_inset
+
+ occurs at 
+\begin_inset Formula $y=\frac{x}{\sqrt{x^{2}+\epsilon^{2}}}$
+\end_inset
+
+ which lies within the constraint interval.
+ Note that this transformation also yields a linear objective function w.r.t.
+ 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ As before, we introduce a new objective function
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{abs}}(W,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-z_{ki_{k}}w_{k}^{T}x_{i_{k}}-\epsilon\sqrt{1-z_{ki_{k}}^{2}}\right]\label{eq:EWZabs}
+\end{equation}
+
+\end_inset
+
+to be minimized subject to the constraints 
+\begin_inset Formula $\sum_{i_{k}\in C_{k}}z_{ki_{k}}=0,\,\forall k$
+\end_inset
+
+ and 
+\begin_inset Formula $z_{ki_{k}}\in\left[-1,1\right]$
+\end_inset
+
+ which are the same as in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:sumzequalszero"
+
+\end_inset
+
+) in addition to the orthonormal constraints in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:wkwlinner"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Subsection
+Extension to RKHS kernels
+\end_layout
+
+\begin_layout Standard
+The generalization to RKHS kernels is surprisingly straightforward.
+ First, we follow standard kernel PCA and write the weight vector in terms
+ of the RKHS projected patterns 
+\begin_inset Formula $\phi(x_{l})$
+\end_inset
+
+ to get 
+\begin_inset Formula 
+\begin{equation}
+w_{k}=\sum_{i=1}^{N}\alpha_{ki}\phi(x_{i}).\label{eq:wkRKHS}
+\end{equation}
+
+\end_inset
+
+Note that the expansion of the weight vector is over all patterns rather
+ than just the class-specific ones.
+ This assumes that the weight vector for each class lives in the subspace
+ (potentially infinite dimensional) spanned by the RKHS projected patterns—the
+ same assumption as in standard kernel PCA.
+ The orthogonality constraint between weight vectors becomes 
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+\langle w_{k},w_{l}\rangle & = & \langle\sum_{i=1}^{N}\alpha_{ki}\phi(x_{i}),\sum_{i=1}^{N}\alpha_{li}\phi(x_{i})\rangle\\
+ & = & \sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_{ki}\alpha_{kj}\langle\phi(x_{i}),\phi(x_{j})\rangle\\
+ & = & \sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_{ki}\alpha_{kj}K(x_{i},x_{j})
+\end{array}\label{eq:wkwlRKHS}
+\end{equation}
+
+\end_inset
+
+which is equal to one if 
+\begin_inset Formula $k=l$
+\end_inset
+
+ and zero otherwise.
+ In matrix form, the orthonormality constraints become
+\begin_inset Formula 
+\begin{equation}
+AGA^{T}=I_{K}\label{eq:orthoRKHS}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\left[A\right]_{kl}\equiv\alpha_{ki}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left[G\right]_{ij}=K(x_{i},x_{j})$
+\end_inset
+
+ is the well-known Gram matrix of pairwise RKHS inner products between the
+ patterns.
+ 
+\end_layout
+
+\begin_layout Standard
+The corresponding squared inner product and absolute value of inner product
+ objective functions are 
+\size small
+
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{Kquad}}(A,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-\sum_{j=1}^{N}z_{ki_{k}}\alpha_{kj}K(x_{j},x_{i_{k}})+\frac{1}{2}z_{ki_{k}}^{2}\right]\label{eq:Kquadobj}
+\end{equation}
+
+\end_inset
+
+
+\size default
+and
+\size small
+
+\begin_inset Formula 
+\begin{equation}
+E_{\mathrm{Kabs}}(A,Z)=\sum_{k=1}^{K}\sum_{i_{k}\in C_{k}}\left[-\sum_{j=1}^{N}z_{ki_{k}}\alpha_{kj}K(x_{j},x_{i_{k}})-\epsilon\sqrt{1-z_{ki_{k}}^{2}}\right]\label{eq:Kabsobj}
+\end{equation}
+
+\end_inset
+
+
+\size default
+respectively.
+ These have to be minimized w.r.t.
+ the orthonormal constraints in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:orthoRKHS"
+
+\end_inset
+
+) and the origin constraints in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:sumzequalszero"
+
+\end_inset
+
+).
+ Note that the objective functions are identical w.r.t.
+ the matrix 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ The parameter 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ can be set to a very small but positive value.
+\end_layout
+
+\end_body
+\end_document

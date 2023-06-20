@@ -1,0 +1,91 @@
+
+\section{Related Work\label{Related-Work}}
+
+Traditional dimensionality reduction techniques like principal component
+analysis (PCA) \citep{Jolliffe1986}, and supervised algorithms such
+as Fisher linear discriminant analysis \citep{fisher1936use} seek
+to retain significant features while removing insignificant, redundant,
+or noisy features. These algorithms are frequently utilized as preprocessing
+steps before the application of a classification algorithm and have
+been been successful in solving many real-world problems. A limitation
+in the vast majority of methods is that there is no specific connection
+between the dimensionality reduction technique and the supervised
+learning-driven classifier. Dimensionality reduction techniques such
+as canonical correlation analysis (CCA) \citep{Hotelling1933}, and
+partial least squares (PLS) \citep{Arenas-GarciaPetersenHansen2007}
+on the one hand and classification algorithms such as support vector
+machines (SVM) \citep{Vapnik1998} on the other seek to optimize different
+criteria. In contrast, in this paper, we analyze dimensionality reduction
+from the perspective of multi-class classification. The use of a category
+vector space (with dimension equal to class cardinality) is an integral
+aspect of this approach.
+
+In supervised learning, it is customary for classification methodologies
+to regard classes as nominal labels without having any internal structure.
+This remains true regardless of whether a discriminant or classifier
+is sought. Discriminants are designed by attempting to separate patterns
+into oppositional classes \citep{Bishop1996,DudaHart1973,hastie1996discriminant}.
+When generalization to a multi-class classifier is required, many
+oppositional discriminants are combined with the final classifier
+being a winner-take-all (or voting-based) decision w.r.t. the set
+of nominal labels. Convex objective functions based on misclassification
+error minimization (or approximation) are not that different either.
+Least-squares or logistic regression methods set up convex objective
+functions with nominal labels converted to binary outputs \citep{Ye2007,bishop2006pattern}.
+When extensions to multi-class are sought, the binary labels are extended
+to a one of $K$ encoding with $K$ being the number of classes. Support
+vector machines (SVM's) were inherently designed for two class discrimination
+and all formulations of multi-class SVM's extend this oppositional
+framework using one-versus-one or one-versus-all schemes. Below, we
+begin by describing the different approaches to the multi-class problem.
+This is not meant to be exhaustive, but provides an overview of some
+of the popular methods and approaches that have been researched in
+classification and dimensionality reduction. Folley and Sammon \citep{Sammon1970},
+\citep{FoleySammon1975} studied the two class problem and feature
+selection and focused on criteria with greatest potential to discriminate.
+The goal of feature selection is to find a set of features with the
+best discrimination properties. To identify the best feature vectors
+they chose the generalized Fisher optimality criterion proposed by
+\citep{AndersonBahadur1962}. The selected directions maximize the
+Fisher criterion which has attractive properties of discrimination.
+Principal components analysis (PCA) permits the reduction of dimensions
+of high dimensional data without losing significant information \citep{Hotelling1933,Jolliffe1986,scholkopf1999advances}.
+Principal components are a way of identifying patterns or significant
+features without taking into account discriminative considerations
+\citep{rao1964use}. Supervised PCA (SPCA), derived from PCA is a
+method for obtaining useful sub-spaces when the labels are taken into
+account. This technique was first described in \citep{bair2004semi}
+under the title ``supervised clustering.'' The idea behind SPCA
+is to perform selective dimensionality reduction using carefully chosen
+subsets of labeled samples. This is used to build a prediction model
+\citep{bair2012prediction}. While we have addressed the most popular
+techniques in dimensionality reduction and multi-class classification,
+this is not an exhaustive study of the literature. Our focus so far
+is primarily on discriminative dimensionality reduction methods that
+assist in better multi-class classification performance. The closest
+we have seen in relation to our work on category spaces is the work
+in \citep{widdows2004geometry} and \citep{widdows2003orthogonal}.
+Here, they mention the importance and usefulness of modeling categories
+as vector spaces for document retrieval and explain how unrelated
+items should have an orthogonal relationship. This is to say that
+they should have no features in common. The structured SVM in \citep{tsochantaridis2004support}
+is another effort at going beyond nominal classes. Here, classes are
+allowed to have internal structure in the form of strings, trees etc.
+However, an explicit modeling of classes as vector spaces is not carried
+out. 
+
+From the above, the modest goal of the present work should be clear.
+We seek to project the input feature vectors to a category space\textemdash a
+subspace formed by category basis vectors. The multi-class FLD falls
+short of this goal since the number of projected dimensions is one
+less than the number of classes. The multi-class (and more recently
+multi-label) SVM \citep{ji2009linear} literature is fragmented due
+to lack of agreement regarding the core issue of multi-class discrimination.
+The varieties of supervised PCA do not begin by clearly formulating
+a criterion for category space projection. Variants such as CCA \citep{johnson2002applied,sun2011canonical},
+PLS \citep{sun2013multi} and structured SVM's \citep{tsochantaridis2004support}
+while attempting to add structure to the categories do not go as far
+as the present work in attempting to fit a category subspace. Kernel
+variants of the above also do not touch the basic issue addressed
+in the present work. Nonlinear (and manifold learning-based) dimensionality
+reduction techniques are unsupervised and therefore do not qualify.
